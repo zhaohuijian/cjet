@@ -1,6 +1,6 @@
 {
   "name": "cjet",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "基于React技术栈的前端工程构建工具",
   "license": "MIT",
   "engines": {
