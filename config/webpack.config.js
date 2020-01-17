@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const babelMerge = require('babel-merge');
 const resolve = require('resolve');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -31,13 +32,16 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
-// @remove-on-eject-begin
+
 const eslint = require('eslint');
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
-// @remove-on-eject-end
+
 const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
+
+const appBabelConfigPath = path.join(paths.appPath, 'babel.config.js');
+const appBabelConfig = fs.existsSync(appBabelConfigPath) ? require(appBabelConfigPath) : {};
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -340,7 +344,7 @@ module.exports = function (webpackEnv) {
                 formatter: require.resolve('react-dev-utils/eslintFormatter'),
                 eslintPath: require.resolve('eslint'),
                 resolvePluginsRelativeTo: __dirname,
-                // @remove-on-eject-begin
+                
                 ignore: process.env.EXTEND_ESLINT === 'true',
                 baseConfig: (() => {
                   // We allow overriding the config only if the env variable is set
@@ -363,7 +367,7 @@ module.exports = function (webpackEnv) {
                   }
                 })(),
                 useEslintrc: false,
-                // @remove-on-eject-end
+                
               },
               loader: require.resolve('eslint-loader'),
             },
@@ -392,11 +396,11 @@ module.exports = function (webpackEnv) {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               include: paths.appSrc,
               loader: require.resolve('babel-loader'),
-              options: {
+              options: babelMerge({
                 customize: require.resolve(
                   'babel-preset-react-app/webpack-overrides'
                 ),
-                // @remove-on-eject-begin
+                
                 babelrc: false,
                 configFile: false,
                 presets: [require.resolve('babel-preset-react-app')],
@@ -416,7 +420,7 @@ module.exports = function (webpackEnv) {
                     'cjet',
                   ]
                 ),
-                // @remove-on-eject-end
+                
                 plugins: [
                   [
                     require.resolve('babel-plugin-named-asset-import'),
@@ -437,7 +441,7 @@ module.exports = function (webpackEnv) {
                 // See #6846 for context on why cacheCompression is disabled
                 cacheCompression: false,
                 compact: isEnvProduction,
-              },
+              }, appBabelConfig),
             },
             // Process any JS outside of the app with Babel.
             // Unlike the application JS, we only compile the standard ES features.
@@ -458,7 +462,7 @@ module.exports = function (webpackEnv) {
                 cacheDirectory: true,
                 // See #6846 for context on why cacheCompression is disabled
                 cacheCompression: false,
-                // @remove-on-eject-begin
+                
                 cacheIdentifier: getCacheIdentifier(
                   isEnvProduction
                     ? 'production'
@@ -470,7 +474,7 @@ module.exports = function (webpackEnv) {
                     'cjet',
                   ]
                 ),
-                // @remove-on-eject-end
+                
                 // Babel sourcemaps are needed for debugging into node_modules
                 // code.  Without the options below, debuggers like VSCode
                 // show incorrect code and set breakpoints on the wrong lines.
@@ -624,8 +628,8 @@ module.exports = function (webpackEnv) {
       // Otherwise React will be compiled in the very slow development mode.
       new webpack.DefinePlugin(env.stringified),
       //Visualize size of webpack output files with an interactive zoomable treemap.
-      isEnvProduction && 
-      bundleAnalyzer && 
+      isEnvProduction &&
+      bundleAnalyzer &&
       new BundleAnalyzerPlugin(),
       //progress is reported during a compilation.
       isEnvDevelopment && new webpack.ProgressPlugin(),
