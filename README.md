@@ -55,7 +55,7 @@ yarn add cjet -D # 或者 npm install cjet --save-dev
 {
   "scripts": {
     "dev": "cjet dev",
-    "dist": "cjet dist"
+    "build": "cjet build"
   }
 }
 ```
@@ -69,7 +69,7 @@ yarn dev #或者 npm run dev
 在本地构建Node开发服务器，脱离nginx、apache等后台服务的依赖，实时编译前端的各种资源，并且在开发过程中任何文件的更改，都会自动更新浏览器，实时查看修改效果。你还将在控制台中看到任何 lint 错误。
 
 ```bash
-yarn dist #或者 npm run dist
+yarn build #或者 npm run build
 ```
 
 将生产应用程序构建到 dist 文件夹。它能将 React 代码智能地打包为生产模式中并优化构建以获得最佳性能。构建文件将被压缩，文件名中将包含哈希。
