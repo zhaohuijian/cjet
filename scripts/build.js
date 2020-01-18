@@ -31,6 +31,7 @@ const chalk = require('react-dev-utils/chalk');
 const fs = require('fs-extra');
 const webpack = require('webpack');
 const boxen = require('boxen');
+const ora = require('ora');
 const configFactory = require('../config/webpack.config');
 const paths = require('../config/paths');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
@@ -154,11 +155,12 @@ function build(previousFileSizes) {
     console.log();
   }
 
-  console.log('Creating an optimized production build...');
+  const spinner = ora('Creating an optimized production build...').start();
 
   const compiler = webpack(config);
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
+      spinner.stop();
       let messages;
       if (err) {
         if (!err.message) {
