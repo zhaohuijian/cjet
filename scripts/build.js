@@ -30,6 +30,7 @@ const path = require('path');
 const chalk = require('react-dev-utils/chalk');
 const fs = require('fs-extra');
 const webpack = require('webpack');
+const boxen = require('boxen');
 const configFactory = require('../config/webpack.config');
 const paths = require('../config/paths');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
@@ -72,26 +73,37 @@ checkBrowsers(paths.appPath, isInteractive)
   })
   .then(
     ({ stats, previousFileSizes, warnings }) => {
+      let message = chalk.cyan('欢迎使用CJET前端React工程构建工具');
       if (warnings.length) {
-        console.log(chalk.yellow('Compiled with warnings.\n'));
-        console.log(warnings.join('\n\n'));
-        console.log(
-          '\nSearch for the ' +
-          chalk.underline(chalk.yellow('keywords')) +
-          ' to learn more about each warning.'
-        );
-        console.log(
-          'To ignore, add ' +
-          chalk.cyan('// eslint-disable-next-line') +
-          ' to the line before.\n'
-        );
+        message += `\n${chalk.yellow('Compiled with warnings.\n')}`;
+        message += `\n${warnings.join('\n\n')}`;
+        message += `\nSearch for the ${chalk.underline(chalk.yellow('keywords'))} to learn more about each warning.`;
+        message += `\nTo ignore, add ${chalk.cyan('// eslint-disable-next-line')}to the line before.\n`
+        // console.log(chalk.yellow('Compiled with warnings.\n'));
+        // console.log(warnings.join('\n\n'));
+        // console.log(
+        //   '\nSearch for the ' +
+        //   chalk.underline(chalk.yellow('keywords')) +
+        //   ' to learn more about each warning.'
+        // );
+        // console.log(
+        //   'To ignore, add ' +
+        //   chalk.cyan('// eslint-disable-next-line') +
+        //   ' to the line before.\n'
+        // );
       } else {
-        console.log(chalk.green('Compiled successfully.\n'));
+        message += `\n\n${chalk.green('Compiled successfully.')}`
+        // console.log(chalk.green('Compiled successfully.\n'));
       }
-
-      console.log('File sizes report:\n');
-      console.log(distFileSizeReport(paths.appBuild));
-      console.log();
+      message += '\n\nFile sizes report:\n';
+      message += distFileSizeReport(paths.appBuild);
+      message += `\n\n${chalk.gray('More info see:https://github.com/chanjet-fe/cjet')}`;
+      console.log(boxen(message, {
+        padding: 1,
+        borderColor: 'white',
+        margin: 0,
+        borderStyle: 'classic'
+      }));
 
       const appPackage = require(paths.appPackageJson);
       const publicUrl = paths.publicUrl;

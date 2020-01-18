@@ -1,7 +1,7 @@
 {
   "name": "cjet",
   "version": "1.1.0",
-  "description": "基于React技术栈的前端工程构建工具",
+  "description": "前端React工程构建工具",
   "license": "MIT",
   "engines": {
     "node": ">=8.10"
@@ -21,9 +21,11 @@
     "babel-merge": "^3.0.0",
     "babel-plugin-named-asset-import": "^0.3.5",
     "babel-preset-react-app": "^9.1.0",
+    "boxen": "^4.2.0",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "css-loader": "3.3.2",
+    "detect-port-alt": "^1.1.6",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
     "eslint": "^6.6.0",
@@ -39,6 +41,7 @@
     "global-modules": "^2.0.0",
     "html-webpack-plugin": "4.0.0-beta.11",
     "identity-obj-proxy": "3.0.0",
+    "is-root": "^2.1.0",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "0.8.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
