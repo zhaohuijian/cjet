@@ -42,6 +42,7 @@ const appPackageJson = require(paths.appPackageJson);
 
 const appBabelConfigPath = path.join(paths.appPath, 'babel.config.js');
 const appBabelConfig = fs.existsSync(appBabelConfigPath) ? require(appBabelConfigPath) : {};
+const cjetConfig = require('./cjet.config');
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -65,6 +66,8 @@ const lessRegex = /\.less$/;
 const lessModuleRegex = /\.module\.less$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const stylusRegex = /\.styl(us)?$/;
+const stylusModuleRegex = /\.module\.styl(us)?$/;
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -97,7 +100,7 @@ module.exports = function (webpackEnv) {
   const env = getClientEnvironment(publicUrl);
 
   // common function to get style loaders
-  const getStyleLoaders = (cssOptions, preProcessor) => {
+  const getStyleLoaders = (cssOptions, preProcessor, processorOptions = {}) => {
     const loaders = [
       isEnvDevelopment && require.resolve('style-loader'),
       isEnvProduction && {
@@ -106,7 +109,7 @@ module.exports = function (webpackEnv) {
       },
       {
         loader: require.resolve('css-loader'),
-        options: cssOptions,
+        options: Object.assign(cssOptions, cjetConfig.style.cssOptions)
       },
       {
         // Options for PostCSS as we reference these options twice
@@ -129,6 +132,7 @@ module.exports = function (webpackEnv) {
             // so that it honors browserslist config in package.json
             // which in turn let's users customize the target behavior as per their needs.
             postcssNormalize(),
+            ...cjetConfig.style.postcssOptions.plugins
           ],
           sourceMap: isEnvProduction && shouldUseSourceMap,
         },
@@ -144,9 +148,9 @@ module.exports = function (webpackEnv) {
         },
         {
           loader: require.resolve(preProcessor),
-          options: {
+          options: Object.assign({
             sourceMap: true,
-          },
+          }, processorOptions),
         }
       );
     }
@@ -344,7 +348,6 @@ module.exports = function (webpackEnv) {
                 formatter: require.resolve('react-dev-utils/eslintFormatter'),
                 eslintPath: require.resolve('eslint'),
                 resolvePluginsRelativeTo: __dirname,
-                
                 ignore: process.env.EXTEND_ESLINT === 'true',
                 baseConfig: (() => {
                   // We allow overriding the config only if the env variable is set
@@ -367,7 +370,7 @@ module.exports = function (webpackEnv) {
                   }
                 })(),
                 useEslintrc: false,
-                
+
               },
               loader: require.resolve('eslint-loader'),
             },
@@ -400,7 +403,7 @@ module.exports = function (webpackEnv) {
                 customize: require.resolve(
                   'babel-preset-react-app/webpack-overrides'
                 ),
-                
+
                 babelrc: false,
                 configFile: false,
                 presets: [require.resolve('babel-preset-react-app')],
@@ -420,7 +423,6 @@ module.exports = function (webpackEnv) {
                     'cjet',
                   ]
                 ),
-                
                 plugins: [
                   [
                     require.resolve('babel-plugin-named-asset-import'),
@@ -462,7 +464,6 @@ module.exports = function (webpackEnv) {
                 cacheDirectory: true,
                 // See #6846 for context on why cacheCompression is disabled
                 cacheCompression: false,
-                
                 cacheIdentifier: getCacheIdentifier(
                   isEnvProduction
                     ? 'production'
@@ -474,7 +475,7 @@ module.exports = function (webpackEnv) {
                     'cjet',
                   ]
                 ),
-                
+
                 // Babel sourcemaps are needed for debugging into node_modules
                 // code.  Without the options below, debuggers like VSCode
                 // show incorrect code and set breakpoints on the wrong lines.
@@ -525,7 +526,8 @@ module.exports = function (webpackEnv) {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                 },
-                'sass-loader'
+                'sass-loader',
+                cjetConfig.style.sassOptions
               ),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -545,12 +547,13 @@ module.exports = function (webpackEnv) {
                     getLocalIdent: getCSSModuleLocalIdent,
                   },
                 },
-                'sass-loader'
+                'sass-loader',
+                cjetConfig.style.sassOptions
               ),
             },
             // Opt-in support for LESS.
             // By default we support LESS Modules with the
-            // extensions .module.less or .module.less
+            // extensions .module.less
             {
               test: lessRegex,
               exclude: lessModuleRegex,
@@ -559,7 +562,8 @@ module.exports = function (webpackEnv) {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                 },
-                'less-loader'
+                'less-loader',
+                cjetConfig.style.lessOptions
               ),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -568,7 +572,7 @@ module.exports = function (webpackEnv) {
               sideEffects: true,
             },
             // Adds support for CSS Modules, but using LESS
-            // using the extension .module.less or .module.less
+            // using the extension .module.less
             {
               test: lessModuleRegex,
               use: getStyleLoaders(
@@ -579,7 +583,44 @@ module.exports = function (webpackEnv) {
                     getLocalIdent: getCSSModuleLocalIdent,
                   },
                 },
-                'less-loader'
+                'less-loader',
+                cjetConfig.style.lessOptions
+              ),
+            },
+            // Opt-in support for Stylus.
+            // By default we support Stylus Modules with the
+            // extensions .module.styl or .module.stylus
+            {
+              test: stylusRegex,
+              exclude: stylusModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                },
+                'stylus-loader',
+                cjetConfig.style.stylusOptions
+              ),
+              // Don't consider CSS imports dead code even if the
+              // containing package claims to have no side effects.
+              // Remove this when webpack adds a warning or an error for this.
+              // See https://github.com/webpack/webpack/issues/6571
+              sideEffects: true,
+            },
+            // Adds support for CSS Modules, but using LESS
+            // using the extension .module.less or .module.less
+            {
+              test: stylusModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                  modules: {
+                    getLocalIdent: getCSSModuleLocalIdent,
+                  },
+                },
+                'stylus-loader',
+                cjetConfig.style.stylusOptions
               ),
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
@@ -733,7 +774,7 @@ module.exports = function (webpackEnv) {
 
   // These are the "entry points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
-  paths.appIndexJsGlob.map((file) => {
+  paths.appPagesJs.map((file) => {
     const fileName = path.dirname(file).split('/').pop()
     webpackConfig.entry[fileName] = [
       isEnvDevelopment &&
@@ -742,8 +783,17 @@ module.exports = function (webpackEnv) {
     ].filter(Boolean);
   });
 
+  if (fs.existsSync(paths.appIndexJs)) {
+    const fileName = path.parse(paths.appIndexJs).name
+    webpackConfig.entry[fileName] = [
+      isEnvDevelopment &&
+      require.resolve('react-dev-utils/webpackHotDevClient'),
+      paths.appIndexJs,
+    ].filter(Boolean);
+  }
+
   // Generates an `index.html` file with the <script> injected.
-  paths.appHtmlGlob.map((file) => {
+  paths.appPagesHtml.map((file) => {
     const fileName = path.dirname(file).split('/').pop()
     webpackConfig.plugins.push(new HtmlWebpackPlugin(
       Object.assign(
@@ -773,6 +823,36 @@ module.exports = function (webpackEnv) {
       )
     ))
   });
+  if (fs.existsSync(paths.appIndexHtml)) {
+    const fileName = path.parse(paths.appIndexHtml).name
+    webpackConfig.plugins.push(new HtmlWebpackPlugin(
+      Object.assign(
+        {},
+        {
+          inject: true,
+          chunks: [fileName],
+          filename: path.join(fileName + '.html'),
+          template: paths.appIndexHtml,
+        },
+        isEnvProduction
+          ? {
+            minify: {
+              removeComments: true,
+              collapseWhitespace: true,
+              removeRedundantAttributes: true,
+              useShortDoctype: true,
+              removeEmptyAttributes: true,
+              removeStyleLinkTypeAttributes: true,
+              keepClosingSlash: true,
+              minifyJS: true,
+              minifyCSS: true,
+              minifyURLs: true,
+            },
+          }
+          : undefined
+      )
+    ))
+  }
   // local webpack.config.js
   const localWebpackConfig = () => {
     const localFiles = globby.sync(path.join(process.cwd(), 'webpack.config*.js'));

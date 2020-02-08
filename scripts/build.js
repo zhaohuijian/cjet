@@ -47,7 +47,8 @@ const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
 
 // Warn and crash if required files are missing
-if (paths.appIndexJsGlob.length === 0 || paths.appHtmlGlob.length === 0) {
+if ((paths.appPagesJs.length === 0 || paths.appPagesHtml.length === 0) && (!fs.pathExistsSync(paths.appIndexHtml) || !fs.pathExistsSync(paths.appIndexJs))) {
+  console.log(chalk.red('无效的页面模板和脚本'));
   process.exit(1);
 }
 
@@ -221,6 +222,6 @@ function copyPublicFolder() {
   if (!fs.pathExistsSync(paths.appPublic)) return;
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
-    filter: file => file !== paths.appHtml,
+    // filter: file => file !== paths.appIndexHtml,
   });
 }
