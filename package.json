@@ -1,6 +1,6 @@
 {
   "name": "cjet",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "前端React工程构建工具",
   "license": "MIT",
   "engines": {
@@ -42,6 +42,7 @@
     "html-webpack-plugin": "4.0.0-beta.11",
     "identity-obj-proxy": "3.0.0",
     "is-root": "^2.1.0",
+    "less-loader": "^5.0.0",
     "lodash.defaultsdeep": "^4.6.1",
     "mini-css-extract-plugin": "0.8.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
@@ -57,8 +58,10 @@
     "react-dev-utils": "^10.0.0",
     "resolve": "1.13.1",
     "resolve-url-loader": "3.1.1",
+    "sass-loader": "^8.0.2",
     "semver": "6.3.0",
     "style-loader": "1.0.1",
+    "stylus-loader": "^3.0.2",
     "terser-webpack-plugin": "2.3.0",
     "ts-pnp": "1.1.5",
     "url-loader": "2.3.0",
@@ -71,13 +74,10 @@
   },
   "devDependencies": {
     "less": "^3.10.3",
-    "less-loader": "^5.0.0",
     "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "sass-loader": "^8.0.2",
-    "stylus": "^0.54.7",
-    "stylus-loader": "^3.0.2"
+    "stylus": "^0.54.7"
   },
   "optionalDependencies": {
     "fsevents": "2.1.2"
@@ -89,13 +89,13 @@
     "typescript": {
       "optional": true
     },
-    "less-loader": {
+    "less": {
       "optional": true
     },
-    "sass-loader": {
+    "node-sass": {
       "optional": true
     },
-    "stylus-loader": {
+    "stylus": {
       "optional": true
     }
   },
