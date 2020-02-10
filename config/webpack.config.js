@@ -25,7 +25,7 @@ const globby = require('react-dev-utils/globby');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+const getCSSModuleLocalIdent = require('../lib/getCSSModuleLocalIdent');
 const paths = require('./paths');
 const modules = require('./modules');
 const getClientEnvironment = require('./env');
@@ -139,6 +139,13 @@ module.exports = function (webpackEnv) {
       },
     ].filter(Boolean);
     if (preProcessor) {
+      let resolvedLoader;
+      try {
+        resolvedLoader = require.resolve(loader);
+      } catch (error) {
+        resolvedLoader = preProcessor;
+      }
+
       loaders.push(
         {
           loader: require.resolve('resolve-url-loader'),
@@ -147,7 +154,7 @@ module.exports = function (webpackEnv) {
           },
         },
         {
-          loader: require.resolve(preProcessor),
+          loader: resolvedLoader,
           options: Object.assign({
             sourceMap: true,
           }, processorOptions),
