@@ -14,7 +14,9 @@ const cjetConfigDefault = {
      * css配置
      * https://github.com/webpack-contrib/css-loader
      */
-    cssOptions: {},
+    cssOptions: {
+
+    },
     /**
      * less配置
      * https://github.com/webpack-contrib/less-loader
