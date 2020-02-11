@@ -103,7 +103,7 @@ module.exports = function (webpackEnv) {
       isEnvDevelopment && {
         loader: require.resolve('vue-style-loader'),
         options: {
-          sourceMap: shouldUseSourceMap
+          sourceMap: cjetConfig.style.sourceMap
         }
       },
       isEnvProduction && {
@@ -112,7 +112,9 @@ module.exports = function (webpackEnv) {
       },
       {
         loader: require.resolve('css-loader'),
-        options: Object.assign(cssOptions, cjetConfig.style.cssOptions)
+        options: Object.assign({}, cssOptions, cjetConfig.style.cssOptions, {
+          sourceMap: cjetConfig.style.sourceMap
+        })
       },
       {
         // Options for PostCSS as we reference these options twice
@@ -123,7 +125,7 @@ module.exports = function (webpackEnv) {
           config: {
             path: __dirname
           },
-          sourceMap: shouldUseSourceMap,
+          sourceMap: cjetConfig.style.sourceMap,
         },
       },
     ].filter(Boolean);
@@ -139,13 +141,13 @@ module.exports = function (webpackEnv) {
         {
           loader: require.resolve('resolve-url-loader'),
           options: {
-            sourceMap: shouldUseSourceMap,
+            sourceMap: cjetConfig.style.sourceMap,
           },
         },
         {
           loader: resolvedLoader,
           options: Object.assign({
-            sourceMap: shouldUseSourceMap,
+            sourceMap: cjetConfig.style.sourceMap,
           }, processorOptions),
         }
       );
@@ -242,13 +244,13 @@ module.exports = function (webpackEnv) {
               ascii_only: true,
             },
           },
-          sourceMap: shouldUseSourceMap,
+          sourceMap: cjetConfig.style.sourceMap,
         }),
         // This is only used in production mode
         new OptimizeCSSAssetsPlugin({
           cssProcessorOptions: {
             parser: safePostCssParser,
-            map: shouldUseSourceMap
+            map: cjetConfig.style.sourceMap
               ? {
                 // `inline: false` forces the sourcemap to be output into a
                 // separate file
@@ -490,8 +492,7 @@ module.exports = function (webpackEnv) {
               test: cssRegex,
               exclude: cssModuleRegex,
               use: getStyleLoaders({
-                importLoaders: 1,
-                sourceMap: shouldUseSourceMap,
+                importLoaders: 1
               }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -505,7 +506,6 @@ module.exports = function (webpackEnv) {
               test: cssModuleRegex,
               use: getStyleLoaders({
                 importLoaders: 1,
-                sourceMap: shouldUseSourceMap,
                 modules: {
                   getLocalIdent: getCSSModuleLocalIdent,
                 },
@@ -519,8 +519,7 @@ module.exports = function (webpackEnv) {
               exclude: sassModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 2,
-                  sourceMap: shouldUseSourceMap,
+                  importLoaders: 2
                 },
                 'sass-loader',
                 cjetConfig.style.sassOptions
@@ -538,7 +537,6 @@ module.exports = function (webpackEnv) {
               use: getStyleLoaders(
                 {
                   importLoaders: 2,
-                  sourceMap: shouldUseSourceMap,
                   modules: {
                     getLocalIdent: getCSSModuleLocalIdent,
                   },
@@ -555,8 +553,7 @@ module.exports = function (webpackEnv) {
               exclude: lessModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 2,
-                  sourceMap: shouldUseSourceMap,
+                  importLoaders: 2
                 },
                 'less-loader',
                 cjetConfig.style.lessOptions
@@ -574,7 +571,6 @@ module.exports = function (webpackEnv) {
               use: getStyleLoaders(
                 {
                   importLoaders: 2,
-                  sourceMap: shouldUseSourceMap,
                   modules: {
                     getLocalIdent: getCSSModuleLocalIdent,
                   },
@@ -591,8 +587,7 @@ module.exports = function (webpackEnv) {
               exclude: stylusModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 2,
-                  sourceMap: shouldUseSourceMap,
+                  importLoaders: 2
                 },
                 'stylus-loader',
                 cjetConfig.style.stylusOptions
@@ -610,7 +605,6 @@ module.exports = function (webpackEnv) {
               use: getStyleLoaders(
                 {
                   importLoaders: 2,
-                  sourceMap: shouldUseSourceMap,
                   modules: {
                     getLocalIdent: getCSSModuleLocalIdent,
                   },

@@ -36,13 +36,9 @@ const cjetConfigDefault = {
     stylusOptions: {},
 
     /**
-     * postcss配置
-     * https://github.com/postcss/postcss-loader#options
-     * 仅支持扩展plugin
+     * style sourceMap
      */
-    postcssOptions: {
-      plugins: []
-    }
+    sourceMap: false
   },
 
   /**
