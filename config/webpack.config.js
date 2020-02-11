@@ -100,7 +100,12 @@ module.exports = function (webpackEnv) {
   // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor, processorOptions = {}) => {
     const loaders = [
-      isEnvDevelopment && require.resolve('vue-style-loader'),
+      isEnvDevelopment && {
+        loader: require.resolve('vue-style-loader'),
+        options: {
+          sourceMap: shouldUseSourceMap
+        }
+      },
       isEnvProduction && {
         loader: MiniCssExtractPlugin.loader,
         options: shouldUseRelativeAssetPaths ? { publicPath: '../../' } : {},
