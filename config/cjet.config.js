@@ -55,8 +55,7 @@ const cjetConfigDefault = {
     appIndexJs: 'src/index',
     appPages: 'src/pages',
     proxySetup: 'src/setupProxy.js',
-    appTypeDeclarations: 'src/react-app-env.d.ts',
-    ownTypeDeclarations: 'lib/react-app.d.ts'
+    appTypeDeclarations: 'src/react-app-env.d.ts'
   },
   /**
    * workbox-webpack-plugin配置

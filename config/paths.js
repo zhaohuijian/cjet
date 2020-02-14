@@ -101,7 +101,7 @@ module.exports = {
   ownPath: resolveOwn('.'),
   ownNodeModules: resolveOwn('node_modules'), // This is empty on npm 3
   appTypeDeclarations: resolveApp(cjetConfig.paths.appTypeDeclarations),
-  ownTypeDeclarations: resolveOwn(cjetConfig.paths.ownTypeDeclarations)
+  ownTypeDeclarations: resolveOwn('lib/react-app.d.ts'),
 };
 
 module.exports.moduleFileExtensions = moduleFileExtensions;
