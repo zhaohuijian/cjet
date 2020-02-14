@@ -57,6 +57,28 @@ const cjetConfigDefault = {
     proxySetup: 'src/setupProxy.js',
     appTypeDeclarations: 'src/react-app-env.d.ts',
     ownTypeDeclarations: 'lib/react-app.d.ts'
+  },
+  /**
+   * workbox-webpack-plugin配置
+   * More info see: https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
+   */
+  pwa: {
+    mode: 'GenerateSW', // GenerateSW or InjectManifest
+    options: {
+      clientsClaim: true,
+      exclude: [/\.map$/, /asset-manifest\.json$/],
+      importWorkboxFrom: 'cdn',
+      navigateFallback: '/index.html',
+      navigateFallbackBlacklist: [
+        // Exclude URLs starting with /_, as they're likely an API call
+        new RegExp('^/_'),
+        // Exclude any URLs whose last part seems to be a file extension
+        // as they're likely a resource and not a SPA route.
+        // URLs containing a "?" character won't be blacklisted as they're likely
+        // a route with query params (e.g. auth callbacks).
+        new RegExp('/[^/?]+\\.[^/]+$'),
+      ],
+    }
   }
 }
 
