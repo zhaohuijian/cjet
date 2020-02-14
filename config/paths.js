@@ -78,7 +78,7 @@ const appPagesHtml = globby.sync(path.join(resolveApp(cjetConfig.paths.appPages)
 
 const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 
-// config before eject: we're in ./node_modules/react-scripts/config/
+// config before eject: we're in ./node_modules/cjet/config/
 module.exports = {
   appPagesJs: appPagesJs,
   appPagesHtml: appPagesHtml,
