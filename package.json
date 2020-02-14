@@ -1,6 +1,6 @@
 {
   "name": "cjet",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "前端React工程构建工具",
   "license": "MIT",
   "engines": {
@@ -14,8 +14,8 @@
   "dependencies": {
     "@babel/core": "7.8.4",
     "@svgr/webpack": "4.3.3",
-    "@typescript-eslint/eslint-plugin": "^2.19.0",
-    "@typescript-eslint/parser": "^2.19.0",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@typescript-eslint/parser": "^2.10.0",
     "babel-eslint": "10.0.3",
     "babel-loader": "8.0.6",
     "babel-merge": "^3.0.0",
