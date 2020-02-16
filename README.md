@@ -1,3 +1,18 @@
+<p align="center">
+    <img width="150" src="https://user-images.githubusercontent.com/9346030/74599354-5ac22200-50bb-11ea-82be-e340bb2f90e7.png">
+  <br>
+  <br>
+  <a href="https://www.npmjs.com/package/cjet">
+  <img src="https://img.shields.io/npm/v/cjet.svg" alt="npm-version"></a>
+  <br>
+  <br>
+  <img src="https://img.shields.io/npm/dm/cjet.svg" alt="download-num">
+  <img src="https://img.shields.io/badge/node-%3E=8.10.0-brightgreen.svg" alt="node">
+  <img src="https://img.shields.io/npm/l/cjet.svg" alt="license">
+  <img src="https://img.shields.io/badge/platform-MacOS%7CLinux%7CWindows-lightgrey.svg" alt="platform">
+  <br>
+</p>
+
 # CJET
 
 CJET致力于使用React技术栈以系统性、组件化、标准化的过程方法开发和维护企业级应用软件。确保前端开发人员能够快速在React生态中将各种基础工具以零配置的方式与企业级业务需求的开发平稳衔接，让研发人员更专注于开发业务逻辑上，同时提供灵活的配置，以适合不同类型和规模的企业级应用。
