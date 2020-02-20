@@ -78,6 +78,13 @@ const cjetConfigDefault = {
         new RegExp('/[^/?]+\\.[^/]+$'),
       ],
     }
+  },
+
+  /**
+   * typescript配置
+   */
+  tsconfig: {
+    rewrite: true
   }
 }
 

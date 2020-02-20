@@ -10,6 +10,7 @@ const fs = require('fs');
 const resolve = require('resolve');
 const path = require('path');
 const paths = require('../../config/paths');
+const cjetConfig = require('../../config/cjet.config')
 const os = require('os');
 const immer = require('react-dev-utils/immer').produce;
 const globby = require('react-dev-utils/globby').sync;
@@ -80,8 +81,8 @@ function verifyTypeScriptSetup() {
     console.error(
       chalk.bold(
         'If you are not trying to use TypeScript, please remove the ' +
-          chalk.cyan('tsconfig.json') +
-          ' file from your package root (and any TypeScript files).'
+        chalk.cyan('tsconfig.json') +
+        ' file from your package root (and any TypeScript files).'
       )
     );
     console.error();
@@ -124,8 +125,7 @@ function verifyTypeScriptSetup() {
     jsx: {
       parsedValue: ts.JsxEmit.React,
       suggested: 'react',
-    },
-    paths: { value: undefined, reason: 'aliased imports are not supported' },
+    }
   };
 
   const formatDiagnosticHost = {
@@ -210,7 +210,7 @@ function verifyTypeScriptSetup() {
         `${coloredOption} ${chalk.bold(
           valueToCheck == null ? 'must not' : 'must'
         )} be ${valueToCheck == null ? 'set' : chalk.cyan.bold(value)}` +
-          (reason != null ? ` (${reason})` : '')
+        (reason != null ? ` (${reason})` : '')
       );
     }
   }
@@ -223,7 +223,7 @@ function verifyTypeScriptSetup() {
     );
   }
 
-  if (messages.length > 0) {
+  if (messages.length > 0 && cjetConfig.tsconfig.rewrite) {
     if (firstTimeSetup) {
       console.log(
         chalk.bold(
