@@ -101,7 +101,7 @@ module.exports = function (webpackEnv) {
   const getStyleLoaders = (cssOptions, preProcessor, processorOptions = {}) => {
     const loaders = [
       isEnvDevelopment && {
-        loader: require.resolve('vue-style-loader'),
+        loader: require.resolve('style-loader'),
         options: {
           sourceMap: cjetConfig.style.sourceMap
         }
@@ -624,13 +624,22 @@ module.exports = function (webpackEnv) {
               // its runtime that would otherwise be processed through "file" loader.
               // Also exclude `html` and `json` extensions so they get processed
               // by webpacks internal loaders.
-              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/, paths.svgIconPath],
               options: {
                 name: 'static/media/[name].[hash:8].[ext]',
               },
             },
             // ** STOP ** Are you adding a new loader?
             // Make sure to add the new loader(s) before the "file" loader.
+            {
+              test: /\.svg$/,
+              exclude: /(node_modules|bower_components)/,
+              include: paths.svgIconPath,
+              use: [{
+                loader: require.resolve('svg-sprite-loader'),
+                options: cjetConfig.svgSprite.options
+              }]
+            },
           ],
         },
       ],

@@ -42,6 +42,16 @@ const cjetConfigDefault = {
   },
 
   /**
+   * svg-sprite-loader配置
+   * 配置参考：https://github.com/kisenka/svg-sprite-loader#configuration
+   */
+  svgSprite: {
+    options: {
+      symbolId: "icon-[name]" //symbolId和use使用的名称
+    }
+  },
+
+  /**
    * -------------------------------
    * 路径配置
    * -------------------------------
@@ -54,6 +64,7 @@ const cjetConfigDefault = {
     appIndexHtml: 'src/index.html',
     appIndexJs: 'src/index',
     appPages: 'src/pages',
+    svgIconPath: 'src/icons',
     proxySetup: 'src/setupProxy.js',
     appTypeDeclarations: 'src/react-app-env.d.ts'
   },

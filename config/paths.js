@@ -88,6 +88,7 @@ module.exports = {
   appPublic: resolveApp(cjetConfig.paths.appPublic),
   appIndexHtml: resolveApp(cjetConfig.paths.appIndexHtml),
   appIndexJs: resolveModule(resolveApp, cjetConfig.paths.appIndexJs),
+  svgIconPath: resolveApp(cjetConfig.paths.svgIconPath),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp(cjetConfig.paths.appSrc),
   appTsConfig: resolveApp('tsconfig.json'),
