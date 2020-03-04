@@ -780,7 +780,7 @@ module.exports = function (webpackEnv) {
   // Generates an `index.html` file with the <script> injected.
   paths.appPagesHtml.map((file) => {
     const fileName = path.dirname(file).split('/').pop()
-    webpackConfig.plugins.push(new HtmlWebpackPlugin(
+    webpackConfig.plugins.unshift(new HtmlWebpackPlugin(
       Object.assign(
         {},
         {
@@ -810,7 +810,7 @@ module.exports = function (webpackEnv) {
   });
   if (fs.existsSync(paths.appIndexHtml)) {
     const fileName = path.parse(paths.appIndexHtml).name
-    webpackConfig.plugins.push(new HtmlWebpackPlugin(
+    webpackConfig.plugins.unshift(new HtmlWebpackPlugin(
       Object.assign(
         {},
         {
