@@ -4,6 +4,17 @@ const defaultsDeep = require('lodash.defaultsdeep')
 
 const cjetConfigDefault = {
 
+  html: {
+    /**
+     * 启用 preload
+     */
+    preload: true,
+    /**
+     * 启用 prefetch
+     */
+    prefetch: true
+  },
+
   /**
    * -------------------------------
    * 样式编译器配置
