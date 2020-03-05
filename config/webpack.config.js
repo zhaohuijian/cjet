@@ -98,6 +98,15 @@ module.exports = function (webpackEnv) {
   // Get environment variables to inject into our app.
   const env = getClientEnvironment(publicUrl);
 
+  // eslint extend
+  const eslintExtends = (extendArr) => {
+    const extendTemp = []
+    extendArr.map((extend) => {
+      extendTemp.push(require.resolve(extend))
+    });
+    return extendTemp
+  }
+
   // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor, processorOptions = {}) => {
     const loaders = [
@@ -343,33 +352,17 @@ module.exports = function (webpackEnv) {
           use: [
             {
               options: {
-                cache: true,
+                cache: cjetConfig.eslint.cache,
                 formatter: require.resolve('react-dev-utils/eslintFormatter'),
                 eslintPath: require.resolve('eslint'),
                 resolvePluginsRelativeTo: __dirname,
                 ignore: process.env.EXTEND_ESLINT === 'true',
                 baseConfig: (() => {
-                  // We allow overriding the config only if the env variable is set
-                  if (process.env.EXTEND_ESLINT === 'true') {
-                    const eslintCli = new eslint.CLIEngine();
-                    let eslintConfig;
-                    try {
-                      eslintConfig = eslintCli.getConfigForFile(
-                        paths.appIndexJs
-                      );
-                    } catch (e) {
-                      console.error(e);
-                      process.exit(1);
-                    }
-                    return eslintConfig;
-                  } else {
-                    return {
-                      extends: [require.resolve('eslint-config-react-app')],
-                    };
+                  return {
+                    extends: eslintExtends(cjetConfig.eslint.extends)
                   }
                 })(),
-                useEslintrc: false,
-
+                useEslintrc: cjetConfig.eslint.useEslintrc
               },
               loader: require.resolve('eslint-loader'),
             },
@@ -651,7 +644,7 @@ module.exports = function (webpackEnv) {
       new PreloadWebpackPlugin({
         rel: 'preload',
         include: 'initial',
-        fileBlacklist: [/\.map$/]
+        fileBlacklist: [/\.map$/, /runtime-.+[.]js/]
       }),
       isEnvProduction &&
       cjetConfig.html.preload &&
@@ -705,6 +698,7 @@ module.exports = function (webpackEnv) {
         // both options are optional
         filename: 'static/css/[name].[contenthash:8].css',
         chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+        ignoreOrder: true
       }),
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding

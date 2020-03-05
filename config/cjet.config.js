@@ -63,6 +63,15 @@ const cjetConfigDefault = {
   },
 
   /**
+   * eslint 配置
+   */
+  eslint: {
+    cache: true, //启用缓存
+    useEslintrc: true, //项目中使用eslintrc配置
+    extends: ['eslint-config-react-app'] //默认使用的eslint规则
+  },
+
+  /**
    * -------------------------------
    * 路径配置
    * -------------------------------

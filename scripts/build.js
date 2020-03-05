@@ -76,29 +76,7 @@ checkBrowsers(paths.appPath, isInteractive)
   .then(
     ({ stats, previousFileSizes, warnings }) => {
       let message = chalk.cyan('欢迎使用CJET前端React工程构建工具');
-      if (warnings.length) {
-        message += `\n${chalk.yellow('Compiled with warnings.\n')}`;
-        message += `\n${warnings.join('\n\n')}`;
-        message += `\nSearch for the ${chalk.underline(chalk.yellow('keywords'))} to learn more about each warning.`;
-        message += `\nTo ignore, add ${chalk.cyan('// eslint-disable-next-line')}to the line before.\n`
-        // console.log(chalk.yellow('Compiled with warnings.\n'));
-        // console.log(warnings.join('\n\n'));
-        // console.log(
-        //   '\nSearch for the ' +
-        //   chalk.underline(chalk.yellow('keywords')) +
-        //   ' to learn more about each warning.'
-        // );
-        // console.log(
-        //   'To ignore, add ' +
-        //   chalk.cyan('// eslint-disable-next-line') +
-        //   ' to the line before.\n'
-        // );
-      } else {
-        message += `\n\n${chalk.green('Compiled successfully.')}`
-        // console.log(chalk.green('Compiled successfully.\n'));
-      }
-      message += '\n\nFile sizes report:\n';
-      message += distFileSizeReport(paths.appBuild);
+
       message += `\n\n${chalk.gray('More info see:https://github.com/chanjet-fe/cjet')}`;
       console.log(boxen(message, {
         padding: 1,
@@ -106,6 +84,22 @@ checkBrowsers(paths.appPath, isInteractive)
         margin: 0,
         borderStyle: 'classic'
       }));
+
+      let compileMessage = ''
+      if (warnings.length) {
+        compileMessage += `\n${chalk.yellow('Compiled with warnings.\n')}`;
+        compileMessage += `\n${warnings.join('\n\n')}`;
+        compileMessage += `\nSearch for the ${chalk.underline(chalk.yellow('keywords'))} to learn more about each warning.`;
+        compileMessage += `\nTo ignore, add ${chalk.cyan('// eslint-disable-next-line')}to the line before.\n`
+      } else {
+        compileMessage += `\n\n${chalk.green('Compiled successfully.')}`
+      }
+      console.log(compileMessage)
+
+
+      let reportMessage = '\n\nFile sizes report:\n';
+      reportMessage += distFileSizeReport(paths.appBuild);
+      console.log(reportMessage)
 
       const appPackage = require(paths.appPackageJson);
       const publicUrl = paths.publicUrl;
