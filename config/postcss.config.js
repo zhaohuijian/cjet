@@ -20,7 +20,7 @@ const postcssConfigPath = path.resolve(process.cwd(), 'postcss.config.js')
 
 if (fs.existsSync(postcssConfigPath)) {
   const postcssConfigProject = require(postcssConfigPath)
-  Object.assign(postcssConfig, defaultsDeep((postcssConfigProject.default || postcssConfigProject), postcssConfigDefault))
+  Object.assign(postcssConfig, defaultsDeep(postcssConfigDefault, (postcssConfigProject.default || postcssConfigProject)))
 } else {
   Object.assign(postcssConfig, postcssConfigDefault)
 }
