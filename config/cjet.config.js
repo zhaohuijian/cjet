@@ -80,7 +80,7 @@ const cjetConfigDefault = {
     appPath: '.',
     appSrc: 'src',
     appBuild: 'dist',
-    appPublic: 'src/public',
+    appPublic: 'public',
     appIndexHtml: 'src/index.html',
     appIndexJs: 'src/index',
     appPages: 'src/pages',
