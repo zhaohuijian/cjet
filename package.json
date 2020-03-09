@@ -1,6 +1,6 @@
 {
   "name": "cjet",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "前端React工程构建工具",
   "license": "MIT",
   "engines": {
