@@ -67,7 +67,7 @@ yarn build #或者 npm run build
 
 将生产应用程序构建到 dist 文件夹。它能将 React 代码智能地打包为生产模式中并优化构建以获得最佳性能。构建文件将被压缩，文件名中将包含哈希。
 
-### 构建多页应用
+## 构建多页应用
 
 CJET 支持构建多页面应用。如果你开发的项目是多页应用，请在`src/pages`以目录名存放每个页面内容。
 
@@ -86,7 +86,7 @@ project
     └── index.js
 ```
 
-### cjet 配置文件
+## cjet 配置文件
 
 在项目根目录新建`cjet.config.js`
 
@@ -209,7 +209,7 @@ module.exports = {
 };
 ```
 
-### 支持的浏览器和特性
+## 支持的浏览器和特性
 
 默认情况下，使用 CJET 构建的项目支持所有现代浏览器。 如果你的项目想支持 Internet Explorer 9 , 10 和 11 ， 请自行引入[polyfills](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md)。
 
@@ -222,7 +222,7 @@ CJET 支持最新 JavaScript 标准的超集。 除了 ES6 语法功能外，它
 - Class 字段和静态属性 (part of stage 3 proposal).
 - JSX, Flow 和 TypeScript.
 
-### 开发环境
+## 开发环境
 
 - 开发编辑器
 
@@ -289,7 +289,7 @@ module.exports = function(app) {
 };
 ```
 
-### 样式开发
+## 样式开发
 
 - 使用 CSS
 
@@ -387,7 +387,7 @@ yarn add sass-loader node-sass #或者 npm install sass-loader node-sass
 yarn add stylus-loader stylus #或者 npm install stylus-loader stylus
 ```
 
-### 使用图片，字体和文件
+## 使用图片，字体和文件
 
 在 cjet 的工程项目中，使用图片和字体等静态资源的工作方式与 CSS 类似。直接在 JavaScript 模块中 import 文件。通过 cjet 编译后将该文件包含在 bundle(包) 中。 与 CSS 导入不同，导入文件会为你提供字符串值。 此值是你可以在代码中引用的最终路径，例如 image 的 src 属性或链接到 PDF 的 href 属性。
 
@@ -419,7 +419,7 @@ export default Header;
 
 Webpack 在 CSS 中找到所有相关模块引用（它们以 `./` 开头），并用编译后的 bundle(包) 中的最终路径替换它们。如果输入拼写错误或意外删除重要文件，你将看到编译错误信息，就像导入不存在的 JavaScript 模块一样。编译包中的最终文件名由 Webpack 从内容哈希生成。如果文件内容将来发生变化，Webpack 将在生产中为其指定一个不同的名称，因此你无需担心这些静态资源的长期缓存。
 
-### SVG 图标/图像
+## 使用SVG 图标/图像
 
 在 cjet 工程项目中使用`Svg Symbol`方式在项目中使用 SVG，这是一种全新的使用方式，是未来的主流，也是业界目前推荐的用法。Symbol 具有如下特点：
 
@@ -581,7 +581,7 @@ class App extends Component {
 export default App;
 ```
 
-### 待续...
+## 待续...
 
 ## License
 
