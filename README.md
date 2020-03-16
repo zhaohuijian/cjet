@@ -315,7 +315,7 @@ HTTPS=true npm start
 
 - **使用 CSS**
 
-cjet 低层使用 Webpack 处理样式资源，要表明 JavaScript 文件依赖于某个 CSS 文件，你需要 在 JavaScript 文件中导入 CSS
+cjet 工程使用 Webpack 处理样式资源，要表明 JavaScript 文件依赖于某个 CSS 文件，你需要 在 JavaScript 文件中导入 CSS
 
 **Button.css**
 
@@ -716,7 +716,7 @@ cjet 推荐将资源作为模块依赖图的一部分导入，这样它们会通
 
 ## Webpack 配置
 
-cjet 低层使用 webpack 作为模块打包工具，根据众多业务场景，融合了业内开发 React 项目的大量最佳实践配置，让你在开发企业级项目中享受零配置的工程体验，也依然支持高度灵活的可配置性，在根目录新建`webpack.config.js`，并输出一个配置对象：
+cjet 工程使用 webpack 作为模块打包工具，根据众多业务场景，融合了业内开发 React 项目的大量最佳实践配置，让你在开发企业级项目中享受零配置的工程体验，也依然支持高度灵活的可配置性，在根目录新建`webpack.config.js`，并输出一个配置对象：
 
 ```js
 //webpack.config.js
