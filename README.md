@@ -13,9 +13,9 @@
   <br>
 </p>
 
-# CJET
+# cjet 前端工程构建工具
 
-CJET 致力于使用 React 技术栈以系统性、组件化、标准化的过程方法开发和维护企业级应用软件。确保前端开发人员能够快速在 React 生态中将各种基础工具以零配置的方式与企业级业务需求的开发平稳衔接，让研发人员更专注于开发业务逻辑上，同时提供灵活的配置，以适合不同类型和规模的企业级应用。
+`cjet` 致力于使用 React 技术栈以系统性、组件化、标准化的过程方法开发和维护企业级应用软件。确保前端开发人员能够快速在 React 生态中将各种基础工具以零配置的方式与企业级业务需求的开发平稳衔接，让研发人员更专注于开发业务逻辑上，同时提供灵活的配置，以适合不同类型和规模的企业级应用。
 
 ## 快速开始
 
@@ -34,7 +34,7 @@ project
 - `src/index.html` 是 index 页面的模版
 - `src/index.js` 是 index 页面的 javascript 入口
 
-##### 2、在项目中安装 CJET
+##### 2、在项目中安装 `cjet`
 
 ```bash
 yarn add cjet -D # 或者 npm install cjet --save-dev
@@ -69,7 +69,7 @@ yarn build #或者 npm run build
 
 ## 构建多页应用
 
-CJET 支持构建多页面应用。如果你开发的项目是多页应用，请在`src/pages`以目录名存放每个页面内容。
+`cjet` 支持构建多页面应用。如果你开发的项目是多页应用，请在`src/pages`以目录名存放每个页面内容。
 
 ```bash
 project
@@ -86,7 +86,7 @@ project
     └── index.js
 ```
 
-## cjet 配置文件
+## `cjet` 配置文件
 
 在项目根目录新建`cjet.config.js`
 
@@ -211,9 +211,9 @@ module.exports = {
 
 ## 支持的浏览器和特性
 
-默认情况下，使用 CJET 构建的项目支持所有现代浏览器。 如果你的项目想支持 Internet Explorer 9 , 10 和 11 ， 请自行引入[polyfills](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md)。
+默认情况下，使用 `cjet` 构建的项目支持所有现代浏览器。 如果你的项目想支持 Internet Explorer 9 , 10 和 11 ， 请自行引入[polyfills](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md)。
 
-CJET 支持最新 JavaScript 标准的超集。 除了 ES6 语法功能外，它还支持：
+`cjet` 支持最新 JavaScript 标准的超集。 除了 ES6 语法功能外，它还支持：
 
 - 指数运算符 (ES2016).
 - Async/await (ES2017).
@@ -224,7 +224,7 @@ CJET 支持最新 JavaScript 标准的超集。 除了 ES6 语法功能外，它
 
 #### browserslist
 
-在 cjet 构建的项目根目录 package.json 文件里的 browserslist 字段 (或一个单独的 .browserslistrc 文件)，指定了项目的目标浏览器的范围。这个值会被 cjet 工程工具来确定需要转译的 JavaScript 特性和需要添加的 CSS 浏览器前缀。具体配置可参考：[https://github.com/browserslist/browserslist](https://github.com/browserslist/browserslist);
+在 `cjet` 构建的项目根目录 package.json 文件里的 browserslist 字段 (或一个单独的 .browserslistrc 文件)，指定了项目的目标浏览器的范围。这个值会被 `cjet` 工程工具来确定需要转译的 JavaScript 特性和需要添加的 CSS 浏览器前缀。具体配置可参考：[https://github.com/browserslist/browserslist](https://github.com/browserslist/browserslist);
 
 ## 开发环境
 
@@ -234,7 +234,7 @@ CJET 支持最新 JavaScript 标准的超集。 除了 ES6 语法功能外，它
 
 - **编码规范**
 
-CJET 默认已集成 eslint 进行代码风格和质量检查，默认使用 facebook 官方根据业内最佳实践整理的[eslint-config-react-app](https://github.com/facebook/create-react-app/blob/master/packages/eslint-config-react-app/index.js)代码风格库，你也可以通过`eslintrc`配置团队自己的代码规范，或者扩展更多第三方的代码规范，如：[eslint-config-airbnb](https://github.com/airbnb/javascript);
+`cjet` 默认已集成 eslint 在开发过程中进行代码风格和质量检查，默认使用 React 官方的[eslint-config-react-app](https://github.com/facebook/create-react-app/blob/master/packages/eslint-config-react-app/index.js)代码风格库，你也可以通过 `eslintrc` 手动配置自己团队的代码规范，或者扩展更多第三方的代码规范，如：[eslint-config-airbnb](https://github.com/airbnb/javascript);
 
 - **热重载和实时检测代码错误**
 
@@ -244,7 +244,7 @@ CJET 默认已集成 eslint 进行代码风格和质量检查，默认使用 fac
 Compiled successfully!
 +-------------------------------------------------------+
 |                                                       |
-|   欢迎使用CJET前端React工程构建工具                   |
+|   欢迎使用cjet前端React工程构建工具                   |
 |                                                       |
 |   You can now view chanjet-mobile in the browser.     |
 |                                                       |
@@ -261,15 +261,15 @@ Compiled successfully!
 
 - **使用 Proxy 代理 API 请求**
 
-对于开发前后端分离的项目，常常需要访问 api 服务器，请在 package.json 中添加 proxy 字段
+对于开发前后端分离的项目，常常需要访问 api 服务器，请在 `package.json` 中添加 proxy 字段
 
 ```json
  "proxy": "http://xxx.xxx.xxx.xxx:3000",
 ```
 
-开发中使用 `fetch('/api/todos')` 时，开发服务器将识别出它不是静态资源，并将你的请求代理到`http://xxx.xxx.xxx.xxx:3000/api/todos`。开发服务器将 仅仅 尝试将 Accept 头中没有 text/html 的请求发送到代理。可以避免开发环境中的 [CORS(跨域)](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS) issues 和错误消息，在 cjet 中 proxy 选项支持 HTTP ，HTTPS 和 WebSocket 连接。
+开发中使用 `fetch('/api/todos')` 时，开发服务器将识别出它不是静态资源，并将你的请求代理到`http://xxx.xxx.xxx.xxx:3000/api/todos`。开发服务器将 仅仅 尝试将 `Accept` 头中没有 `text/html` 的请求发送到代理。可以避免开发环境中的 [CORS(跨域)](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS) issues 和错误消息，使用 `cjet` 的 `proxy` 选项支持 HTTP ，HTTPS 和 WebSocket 连接。
 
-如果 proxy 选项对你来说 不够 灵活，你可以直接访问 Express 应用程序实例，并连接你自己的代理中间件。
+如果 `package.json` 文件中的 `proxy` 选项对你来说 不够 灵活，你可以直接访问 Express 应用程序实例，并连接你自己的代理中间件。
 
 你可以将此功能与 `package.json` 中的 `proxy` 属性结合使用，但建议你将所有逻辑合并到 `src/setupProxy.js` 中。
 
@@ -295,7 +295,7 @@ module.exports = function(app) {
 
 **使用 HTTPS**
 
-开发过程中可能需要开发服务器通过 HTTPS 提供页面。 当 `API` 服务器本身为 `HTTPS` 服务时，使用 "proxy"（代理）功能 将请求代理到 API 服务器，cjet 支持`HTTPS`环境变量以开启`HTTPS`，请将 `HTTPS` 环境变量设置为 `true` ，然后像往常一样使用 yarn dev 启动开发服务器：
+开发过程中可能需要开发服务器通过 HTTPS 提供页面。 当 `API` 服务器本身为 `HTTPS` 服务时，使用 `proxy`（代理）功能 将请求代理到 `API` 服务器，请将 `HTTPS` 环境变量设置为 `true` ，然后像往常一样使用 `yarn dev` 启动开发服务器：
 
 ```bash
 # Windows (cmd.exe)
@@ -315,7 +315,7 @@ HTTPS=true npm start
 
 - **使用 CSS**
 
-cjet 工程使用 Webpack 处理样式资源，要表明 JavaScript 文件依赖于某个 CSS 文件，你需要 在 JavaScript 文件中导入 CSS
+`cjet` 工程使用 Webpack 处理样式资源，要表明 JavaScript 文件依赖于某个 CSS 文件，你需要 在 JavaScript 文件中导入 CSS
 
 **Button.css**
 
@@ -343,7 +343,7 @@ class Button extends Component {
 
 - **使用 CSSModule**
 
-cjet 工程工具支持 `[name].module.css` 文件命名约定支持 [CSS Modules](https://github.com/css-modules/css-modules) 和常规 CSS 。 CSS Modules 允许通过自动创建 `[filename]\_[classname]\_\_[hash]` 格式的唯一 classname 来确定 CSS 的作用域。CSS Modules 允许你在不同的文件中使用相同的 CSS classname，而无需担心命名冲突。 你可以[了解有关 CSS Modules 的更多信息](https://css-tricks.com/css-modules-part-1-need/)。
+`cjet` 工程工具支持 `[name].module.css` 文件命名约定支持 [CSS Modules](https://github.com/css-modules/css-modules) 和常规 CSS 。 CSS Modules 允许通过自动创建 `[filename]\_[classname]\_\_[hash]` 格式的唯一 classname 来确定 CSS 的作用域。CSS Modules 允许你在不同的文件中使用相同的 CSS classname，而无需担心命名冲突。 你可以[了解有关 CSS Modules 的更多信息](https://css-tricks.com/css-modules-part-1-need/)。
 
 **Button.module.css**
 
@@ -760,7 +760,7 @@ cjet 内部使用了 PostCSS，并预设了以下配置。
 }
 ```
 
-cjet 支持 PostCSS 的灵活配置，只需在项目根目录新建`postcss.config.js`，并输入一个配置对象，改对象将被合并为最终的 PostCSS 配置。例如要扩展 viewport(vw、vh)适配方案：
+cjet 支持 PostCSS 的灵活配置，只需在项目根目录新建`postcss.config.js`，并导出一个配置对象，改对象将被合并为最终的 PostCSS 配置。例如要扩展 viewport(vw、vh)适配方案：
 
 ```js
 //postcss.config.js
