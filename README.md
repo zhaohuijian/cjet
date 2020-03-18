@@ -680,6 +680,55 @@ export default App;
 
 如果你在项目中使用的是 React Router，请参考：[https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html](https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html)了解代码拆分，或是 React 官方文档：[代码拆分(Code-Splitting)](http://react.html.cn/docs/code-splitting.html)。也可以使用[react-loadable](https://github.com/jamiebuilds/react-loadable)或[loadable-components](https://github.com/gregberge/loadable-components)。
 
+## preload 和 prefetch
+
+**Preload**
+浏览器会在遇到含有 preload 的 link 标签时，立刻开始下载 main.js(不阻塞 parser)，并放在内存中，但不会执行其中的 JS 语句。Preload 指明哪些资源是在页面加载完成后即刻需要的。对于这种即刻需要的资源，可能希望在页面加载的生命周期的早期阶段就开始获取，在浏览器的主渲染机制介入前就进行预加载。这一机制使得资源可以更早的得到加载并可用，且更不易阻塞页面的初步渲染，进而提升性能。
+
+```html
+<link rel="preload" href="/main.js" as="script" />
+```
+
+- 下载但不执行
+- 异步加载，不影响当前页面的渲染
+- 提前加载资源，在真正使用时，直接从从缓存中读取。
+
+**Prefetch**
+浏览器会在空闲的时候，下载 main.js, 并缓存到 disk。当有页面使用的时候，直接从 disk 缓存中读取。
+
+```html
+<link href="main.js" rel="prefetch" />
+```
+
+- 首次渲染时不需要，之后可能需要。
+- 在浏览器空闲时才会下载。
+
+`cjet` 默认已在工程构建时自动加入 preload 和 prefetch 代码。如果某些场景不需要此功能可以通过`cjet.config.js`关闭。
+
+```js
+//cjet.config.js
+
+module.exports = {
+  html: {
+    /**
+     * 启用 preload
+     * 构建项目自动加入preload方案
+     */
+    preload: true,
+    /**
+     * 启用 prefetch
+     * 构建项目自动加入prefetch方案
+     */
+    prefetch: true
+  }
+};
+```
+
+**cjet 工程增加 preload 和 prefetch 的机制**
+
+- initial 即初始化需要的模块添加到 preload
+- asyncChunks 即通过`import()`（Code Splitting）动态导入的模块添加到 prefetch
+
 ## 使用 public 文件夹
 
 任何放置在 `public` 文件夹的静态资源都会被简单的复制，而不经过任何编译。要引用 public 文件夹中的资源，需要使用名为 `PUBLIC_URL` 的特殊变量。
