@@ -964,7 +964,79 @@ module.exports = {
 
 > 注意： 默认配置不支持常量枚举和命名空间。
 
-## `cjet` 高级配置
+## 使用环境变量
+
+使用`cjet`构建的项目，可以使用在环境中声明的变量，就好像它们是在 JS 文件中本地声明的变量一样。
+
+环境变量在构建期间嵌入。由于 `cjet` 生成静态的 HTML / CSS / JS 包，因此无法在 runtime(运行时) 读取它们。要在运行时读取它们，需要将 HTML 加载到服务器上的内存中，并在运行时替换占位符。
+
+> 注意：必须以 `REACT_APP` 开头创建自定义环境变量。除了 `NODE_ENV` 之外的任何其他变量都将被忽略，以避免意外地在可能具有相同名称的计算机上公开私钥。更改任何环境变量都需要重新启动正在运行的开发服务器
+
+将在 `process.env` 上为你定义这些环境变量。例如，名为 `REACT_APP_ENVDEMO_CODE` 的环境变量将在你的 JS 中公开为 `process.env.REACT_APP_ENVDEMO_CODE` 。
+
+还有一个名为 NODE_ENV 的特殊内置环境变量。可以从 `process.env.NODE_ENV` 中读取。当你运行 `yarn dev` 时，它总是等于 `development` ，当你运行 `yarn build` 来生成一个生产 bundle(包) 时，它总是等于 `production` 。无法手动覆盖`NODE_ENV`。 这可以防止开发人员意外地将慢速开发构建部署到生产环境中。
+
+**在 HTML 中引用环境变量**
+
+`cjet` 支持在 `index.html` 中以 `REACT_APP` 开头访问环境变量:
+
+```html
+<title>%REACT_APP_WEBSITE_NAME%</title>
+```
+
+请注意：
+
+- 除了一些内置变量（ `NODE_ENV` 和 `PUBLIC_URL`）之外，变量名必须以 `REACT_APP_` 开头才能工作。
+- 环境变量在构建时注入。 如果需要在运行时注入它们，请改为使用此方法
+
+**在 Shell 中使用临时环境变量**
+
+```bash
+# Windows (cmd.exe) 注意：变量赋值需要用引号包裹，以避免尾随空格。）
+set "REACT_APP_ENVDEMO_CODE=abcdef" && yarn dev
+
+# Windows (Powershell)
+($env:REACT_APP_ENVDEMO_CODE = "abcdef") -and (yarn dev)
+
+# Linux, macOS (Bash)
+REACT_APP_ENVDEMO_CODE=abcdef yarn dev
+```
+
+**在 .env 中使用环境变量**
+
+使用`cjet`构建的项目，支持使用`.env`文件设置、管理项目中的环境变量，在项目根目录新建`.env`文件：
+
+```env
+REACT_APP_ENVDEMO_CODE=abcdef
+```
+
+- `.env`：默认。
+- `.env.local`：本地覆盖。研发和生产环境都加载此文件。
+- `.env.development`, `.env.production`：设置特定环境。
+- `.env.development.local`, `.env.production.local`：设置特定环境的本地覆盖。
+
+左侧的文件比右侧的文件具有更高的优先级：
+
+- `yarn dev`: `.env.development.local`, `.env.development`, `.env.local`, `.env`
+- `yarn build`: `.env.production.local`, `.env.production`, `.env.local`, `.env`
+
+**`cjet`已预置的环境变量**
+
+你可以通过在 shell 中设置环境变量或使用 `.env` 来调整各种开发和生产设置。
+
+| 变量                 | 研发环境  | 生产环境  | 用法                                                                                                                                                                                                                                                                                                                                                 |
+| -------------------- | --------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BROWSER              | ✅ 支持   | 🚫 不支持 | 默认情况下，`cjet` 将打开默认系统浏览器，支持 macOS 上的 Chrome 。 指定 browser 以覆盖此行为，或将其设置为 none 以完全禁用它。 如果需要自定义启动浏览器的方式，则可以指定一个 node 脚本。 传递给 `yarn dev` 的任何参数也将传递给此脚本，并且提供应用程序的 url 将是最后一个参数。 你的脚本的文件名必须以 .js 为扩展名。                              |
+| HOST                 | ✅ 支持   | 🚫 不支持 | 默认情况下，开发 Web 服务器绑定到 localhost 。你可以使用此变量指定其他主机。                                                                                                                                                                                                                                                                         |
+| PORT                 | ✅ 支持   | 🚫 不支持 | 默认情况下，开发 Web 服务器将尝试侦听端口 8080 或提示你尝试下一个可用端口。你可以使用此变量指定其他端口。                                                                                                                                                                                                                                            |
+| HTTPS                | ✅ 支持   | 🚫 不支持 | 设置为 true 时，`cjet` 将以 https 模式运行开发服务器。                                                                                                                                                                                                                                                                                               |
+| PUBLIC_URL           | 🚫 不支持 | ✅ 支持   | `cjet` 假定你的应用程序托管在服务 Web 服务器的根目录或 package.json (homepage) 中指定的子路径。 通常，`cjet` 会忽略主机名。 你可以使用此变量强制资源逐字引用到你提供的 URL（`hostname`）。 当使用 CDN 托管你的应用程序时，这可能特别有用。                                                                                                           |
+| CI                   | ✅ 支持   | ✅ 支持   | 设置为 true 时，`cjet` 会将警告视为构建中的失败。这也使得 测试运行 不能检测到。大多数 CI 默认设置此标志。                                                                                                                                                                                                                                            |
+| REACT_EDITOR         | ✅ 支持   | 🚫 不支持 | 当应用程序在开发过程中崩溃时，你将看到带有可点击堆栈跟踪的错误覆盖。 当你单击它时，`cjet` 将尝试根据当前正在运行的进程确定你正在使用的编辑器，并打开相关的源文件。 你可以 发送拉取请求以检测你选择的编辑器。 设置此环境变量会覆盖自动检测。 如果这样做，请确保你的系统 PATH 环境变量指向编辑器的 bin 文件夹。 你也可以将其设置为 none 以完全禁用它。 |
+| CHOKIDAR_USEPOLLING  | ✅ 支持   | 🚫 不支持 | 设置为 true 时，watcher 在 VM 内部根据需要以轮询模式运行。如果 `yarn dev` 未检测到更改，请使用此选项。                                                                                                                                                                                                                                               |
+| GENERATE_SOURCEMAP   | 🚫 不支持 | ✅ 支持   | 设置为 false 时，不会为生产构建生成源映射。这解决了一些小型机器上的 OOM 问题。                                                                                                                                                                                                                                                                       |
+| NODE_PATH            | ✅ 支持   | ✅ 支持   | 与 Node.js 中的 NODE_PATH 相同，但只允许相关文件夹。通过设置 `NODE_PATH=src`可以方便地模拟 monorepo 设置。                                                                                                                                                                                                                                           |
+| INLINE_RUNTIME_CHUNK | 🚫 不支持 | ✅ 支持   | 默认情况下，`cjet`会在生成构建期间将运行时脚本嵌入到 index.html 中。设置为 false 时，脚本将不会嵌入，并将照常导入。在处理 CSP 时通常需要这样做。                                                                                                                                                                                                     |
 
 ## 待续...
 
