@@ -155,9 +155,10 @@ module.exports = {
    * eslint 配置
    */
   eslint: {
+    available: true, //开启eslint
     cache: true, //启用配置缓存，如果新配置不起作用请先设置为false
-    useEslintrc: true, //使用项目中eslintrc配置
-    extends: ["eslint-config-react-app"] //默认使用的eslint规则
+    useEslintrc: false, //使用项目中eslintrc配置
+    extends: [] //默认使用的eslint规则
   },
 
   /**
@@ -177,6 +178,7 @@ module.exports = {
     proxySetup: "src/setupProxy.js", //proxy代理配置文件
     appTypeDeclarations: "src/react-app-env.d.ts" //ts环境变量配置文件
   },
+
   /**
    * PWA的workbox-webpack-plugin配置
    * More info see: https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
@@ -900,9 +902,10 @@ module.exports = {
    * eslint 配置
    */
   eslint: {
+    available: true, //开启eslint
     cache: true, //启用配置缓存，如果新配置不起作用请先设置为false
-    useEslintrc: true, //使用项目中eslintrc配置
-    extends: ["eslint-config-react-app"] //默认使用的eslint规则
+    useEslintrc: false, //使用项目中eslintrc配置
+    extends: [] //默认使用的eslint规则
   }
 };
 ```
@@ -960,6 +963,8 @@ module.exports = {
 ```
 
 > 注意： 默认配置不支持常量枚举和命名空间。
+
+## `cjet` 高级配置
 
 ## 待续...
 
