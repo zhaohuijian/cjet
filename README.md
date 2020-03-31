@@ -769,7 +769,7 @@ cjet 推荐将资源作为模块依赖图的一部分导入，这样它们会通
 
 ## 使用 PWA（开发渐进式 WEB 应用程序）
 
-已集成业内开发一流的 [Progressive Web App](https://web.dev/progressive-web-apps/) 的最佳实践，项目中包含一个`src/serviceWroker.js`文件，用于开发渐进式应用程序，在应用程序入口脚本（`src/index.tsx`）默认状态是未注册，如果要使用 PWA，需要在应用入口将 `serviceWorker.unregister()` 更改为 `serviceWorker.register()`。
+`cjet`已集成业内开发一流的 [Progressive Web App](https://web.dev/progressive-web-apps/) 的最佳实践，项目中包含一个`src/serviceWroker.js`文件，用于开发渐进式应用程序，在应用程序入口脚本（`src/index.tsx`）默认状态是未注册，如果要使用 PWA，需要在应用入口将 `serviceWorker.unregister()` 更改为 `serviceWorker.register()`。
 
 随着业内 PWA 相关的技术不断升级优化，在用户体验和用户留存两方面都提供了非常好的解决方案。PWA 可以将 Web 和 App 各自的优势融合在一起：渐进式、可响应、可离线、实现类似 App 的交互、即时更新、安全、可以被搜索引擎检索、可推送、可安装、可链接。其主要特点：
 
