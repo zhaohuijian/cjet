@@ -767,6 +767,68 @@ cjet 推荐将资源作为模块依赖图的一部分导入，这样它们会通
 - 你希望在打包代码之外包含一个像 pace.js 这样的小脚本。
 - 某些库可能与 Webpack 不兼容，你没有其他选择，只能将其包含为 `<script>` 标记。
 
+## 使用 PWA（开发渐进式 WEB 应用程序）
+
+已集成业内开发一流的 [Progressive Web App](https://web.dev/progressive-web-apps/) 的最佳实践，项目中包含一个`src/serviceWroker.js`文件，用于开发渐进式应用程序，在应用程序入口脚本（`src/index.tsx`）默认状态是未注册，如果要使用 PWA，需要在应用入口将 `serviceWorker.unregister()` 更改为 `serviceWorker.register()`。
+
+随着业内 PWA 相关的技术不断升级优化，在用户体验和用户留存两方面都提供了非常好的解决方案。PWA 可以将 Web 和 App 各自的优势融合在一起：渐进式、可响应、可离线、实现类似 App 的交互、即时更新、安全、可以被搜索引擎检索、可推送、可安装、可链接。其主要特点：
+
+- 可靠 - 即使在网络不稳定甚至断网的环境下，也能瞬间加载并展现
+- 用户体验 - 快速响应，具有平滑的过渡动画及用户操作的反馈
+- 用户黏性 - 和 Native App 一样，可以被添加到桌面，能接受离线通知，具有沉浸式的用户体验
+
+本项目使用 cjet 作为工程构建工具，工程框架已集成[workbox-webpack-plugin](https://github.com/GoogleChrome/workbox)，它将负责生成 service worker 文件，该文件将自动预先缓存所有本地资源，并在部署更新时使其保持最新。 service worker 将使用 缓存优先策略 来处理对本地资源的所有请求，包括 HTML 的 导航请求，确保你的 Web 应用程序始终保持快速，即使在缓慢或不可靠的网络上也是如此。
+
+可以通过`cjet.config.js`文件对`workbox-webpack-plugin`进行更多高级配置：
+
+```js
+//cjet.config.js
+
+module.exports = {
+  /**
+   * PWA的workbox-webpack-plugin配置
+   * More info see: https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
+   */
+  pwa: {
+    mode: "GenerateSW", // GenerateSW or InjectManifest
+    options: {
+      clientsClaim: true,
+      exclude: [/\.map$/, /asset-manifest\.json$/],
+      importWorkboxFrom: "cdn",
+      navigateFallback: "/index.html",
+      navigateFallbackBlacklist: [
+        // Exclude URLs starting with /_, as they're likely an API call
+        new RegExp("^/_"),
+        // Exclude any URLs whose last part seems to be a file extension
+        // as they're likely a resource and not a SPA route.
+        // URLs containing a "?" character won't be blacklisted as they're likely
+        // a route with query params (e.g. auth callbacks).
+        new RegExp("/[^/?]+\\.[^/]+$")
+      ]
+    }
+  }
+};
+```
+
+**开发渐进式应用程序（PWA）的注意事项**
+
+开发渐进式 WEB 应用程序使调试部署更具挑战性，如果决定选择加入 service worker 注册，需考虑以下因素：
+
+- 初始缓存完成后，[service worker 生命周期](https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle) 控制何时更新的内容最终显示给用户。默认行为是保守地使更新的 service worker 保持 ["waiting"](https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle#waiting) 状态。这意味着用户最终会看到旧内容，直到他们关闭（重新加载）现有的打开标签。
+- 用户并不总是熟悉离线优先 Web 应用程序。[让用户知道 service worker 何时完成填充缓存](https://developers.google.com/web/fundamentals/instant-and-offline/offline-ux)（显示 "This web app works offline!（此 Web 应用程序脱机工作！）"消息），并让他们知道 service worker 何时获取可用的最新更新可能很有用。
+- service worker [需要 HTTPS](https://developers.google.com/web/fundamentals/primers/service-workers#you_need_https)，但为了便于本地测试，该策略[不适用于 localhost](https://stackoverflow.com/questions/34160509/options-for-testing-service-workers-via-http/34161385#34161385) 。如果你的生产 Web 服务器不支持 HTTPS ，则服务工作者注册将失败，但你的 Web 应用程序的其余部分仍将保持正常运行。
+- service worker 仅在 生产环境 中启用，建议你不要在开发环境中启用离线优先 service worker 程序，因为它可能会导致使用以前缓存的资源时无效，并且不包括你在本地进行的最新更改。
+- 如果 需要 在本地测试离线优先 service worker ，请构建应用程序（使用 `yarn build` ）并从构建目录运行简单的 http 服务器。
+- 默认情况下，生成的 service worker 文件不会拦截或缓存任何跨源资源，如 HTTP API 请求，图片或从其他域名加载的嵌入。
+
+**渐进式 Web 应用程序元 Metadata**
+
+默认配置包含的 Web 应用程序 manifest 位于 `public/manifest.json` ，你可以使用特定于 Web 应用程序的详细信息进行自定义。
+
+当用户在 Android 上使用 Chrome 或 Firefox 将网络应用添加到其主屏幕时，`manifest.json` 中的元数据可以设置显示网络应用时需要使用的图标，名称和品牌颜色（branding colors）。 [Web App Manifest](https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/) 指南 提供了有关每个字段的含义以及你的自定义将如何影响用户体验的更多信息。
+
+已添加到主屏幕的渐进式 Web 应用程序将加载更快，并在激活 service worker 时脱机工作。话虽如此，无论你是否选择性加入 service worker 注册，Web 应用程序清单中的元数据仍将被使用。
+
 ## Webpack 配置
 
 cjet 工程使用 webpack 作为模块打包工具，根据众多业务场景，融合了业内开发 React 项目的大量最佳实践配置，让你在开发企业级项目中享受零配置的工程体验，也依然支持高度灵活的可配置性，在根目录新建`webpack.config.js`，并输出一个配置对象：
