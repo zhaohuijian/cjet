@@ -627,7 +627,10 @@ module.exports = function (webpackEnv) {
             // Make sure to add the new loader(s) before the "file" loader.
             {
               test: /\.svg$/,
-              exclude: /(node_modules|bower_components)/,
+              exclude: [
+                /(node_modules|bower_components)/,
+                ...paths.svgIconPathExclude
+              ],
               include: paths.svgIconPath,
               use: [{
                 loader: require.resolve('svg-sprite-loader'),

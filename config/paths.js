@@ -78,6 +78,24 @@ const appPagesHtml = globby.sync(path.join(resolveApp(cjetConfig.paths.appPages)
 
 const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 
+const svgIconPathInclude = (svgIconPath) => {
+  if (typeof svgIconPath === 'string') return resolveApp(svgIconPath);
+  const includePaths = [];
+  svgIconPath.include && svgIconPath.include.map((item) => {
+    includePaths.push(resolveApp(item))
+  })
+  return includePaths;
+}
+
+const svgIconPathExclude = (svgIconPath) => {
+  if (typeof svgIconPath === 'string') return [];
+  const excludePaths = [];
+  svgIconPath.exclude && svgIconPath.exclude.map((item) => {
+    excludePaths.push(resolveApp(item))
+  })
+  return excludePaths;
+}
+
 // config before eject: we're in ./node_modules/cjet/config/
 module.exports = {
   appPagesJs: appPagesJs,
@@ -88,7 +106,8 @@ module.exports = {
   appPublic: resolveApp(cjetConfig.paths.appPublic),
   appIndexHtml: resolveApp(cjetConfig.paths.appIndexHtml),
   appIndexJs: resolveModule(resolveApp, cjetConfig.paths.appIndexJs),
-  svgIconPath: resolveApp(cjetConfig.paths.svgIconPath),
+  svgIconPath: svgIconPathInclude(cjetConfig.paths.svgIconPath),
+  svgIconPathExclude: svgIconPathExclude(cjetConfig.paths.svgIconPath),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp(cjetConfig.paths.appSrc),
   appTsConfig: resolveApp('tsconfig.json'),
