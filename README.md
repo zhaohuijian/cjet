@@ -102,7 +102,7 @@ module.exports = {
      * 启用 prefetch
      * 构建项目自动加入prefetch方案
      */
-    prefetch: true
+    prefetch: true,
   },
 
   /**
@@ -138,7 +138,7 @@ module.exports = {
     /**
      * style sourceMap
      */
-    sourceMap: false
+    sourceMap: false,
   },
 
   /**
@@ -147,8 +147,8 @@ module.exports = {
    */
   svgSprite: {
     options: {
-      symbolId: "icon-[name]" //symbolId和use使用的名称
-    }
+      symbolId: "icon-[name]", //symbolId和use使用的名称
+    },
   },
 
   /**
@@ -158,7 +158,7 @@ module.exports = {
     available: true, //开启eslint
     cache: true, //启用配置缓存，如果新配置不起作用请先设置为false
     useEslintrc: false, //使用项目中eslintrc配置
-    extends: [] //默认使用的eslint规则
+    extends: [], //默认使用的eslint规则
   },
 
   /**
@@ -176,7 +176,7 @@ module.exports = {
     appPages: "src/pages", //多页面存放目录
     svgIconPath: "src/icons", //svg 图标存放目录
     proxySetup: "src/setupProxy.js", //proxy代理配置文件
-    appTypeDeclarations: "src/react-app-env.d.ts" //ts环境变量配置文件
+    appTypeDeclarations: "src/react-app-env.d.ts", //ts环境变量配置文件
   },
 
   /**
@@ -197,17 +197,17 @@ module.exports = {
         // as they're likely a resource and not a SPA route.
         // URLs containing a "?" character won't be blacklisted as they're likely
         // a route with query params (e.g. auth callbacks).
-        new RegExp("/[^/?]+\\.[^/]+$")
-      ]
-    }
+        new RegExp("/[^/?]+\\.[^/]+$"),
+      ],
+    },
   },
 
   /**
    * typescript配置
    */
   tsconfig: {
-    rewrite: true //是否使用框架内部最佳实践覆盖项目中的tsconfig.json
-  }
+    rewrite: true, //是否使用框架内部最佳实践覆盖项目中的tsconfig.json
+  },
 };
 ```
 
@@ -290,7 +290,7 @@ yarn add http-proxy-middleware
 
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-module.exports = function(app) {
+module.exports = function (app) {
   app.use(createProxyMiddleware("/api", { target: "http://localhost:5000/" }));
 };
 ```
@@ -435,8 +435,8 @@ module.exports = {
      * stylus配置
      * https://github.com/shama/stylus-loader
      */
-    stylusOptions: {}
-  }
+    stylusOptions: {},
+  },
 };
 ```
 
@@ -489,7 +489,8 @@ Webpack 在 CSS 中找到所有相关模块引用（它们以 `./` 开头），�
 在`src/icons`目录下创建`index.js`文件，用于自动导入`src/icons/svg`目录下所有 svg 图标。
 
 ```js
-const requireAll = requireContext => requireContext.keys().map(requireContext);
+const requireAll = (requireContext) =>
+  requireContext.keys().map(requireContext);
 const svgs = require.context("./svg", false, /\.svg$/);
 requireAll(svgs);
 ```
@@ -540,7 +541,7 @@ class App extends Component {
 export default App;
 ```
 
-你可以在`cjet.config.js`配置默认前缀或其它更多配置
+你可以在`cjet.config.js`配置默认前缀
 
 ```js
 //cjet.config.js
@@ -551,9 +552,63 @@ module.exports = {
    */
   svgSprite: {
     options: {
-      symbolId: "icon-[name]" //symbolId和use使用的名称
-    }
-  }
+      symbolId: "icon-[name]", //symbolId和use使用的名称
+    },
+  },
+  /**
+   * -------------------------------
+   * 路径配置
+   * -------------------------------
+   */
+  paths: {
+    /**
+     * svg 图标存放目录 此目录下所有 .svg 将为编译为SVG symbol
+     * 如果设置为空字符项目中所有.svg都将被编译
+     */
+    svgIconPath: "src/icons", //svg 图标存放目录
+  },
+};
+```
+
+你可以在`cjet.config.js`配置 svg 图标存放目录，目录下所有 .svg 将为编译为 SVG symbol 方式
+
+```js
+//cjet.config.js
+module.exports = {
+  /**
+   * -------------------------------
+   * 路径配置
+   * -------------------------------
+   */
+  paths: {
+    /**
+     * svg 图标存放目录 此目录下所有 .svg 将为编译为SVG symbol
+     * 如果设置为空，项目中所有.svg都将被编译
+     */
+    svgIconPath: "src/icons", //svg 图标存放目录
+  },
+};
+```
+
+配置多个 svg 图标存放目录及要`忽略编译为SVG symbol`的目录：
+
+```js
+//cjet.config.js
+module.exports = {
+  /**
+   * -------------------------------
+   * 路径配置
+   * -------------------------------
+   */
+  paths: {
+    /**
+     * v2.7.5以后版本支持配置多个目录，并且可以配置忽略路径
+     */
+    svgIconPath: {
+      include: ["src/icons1", "src/icons2", "src/icons3"],
+      exclude: [],
+    },
+  },
 };
 ```
 
@@ -566,7 +621,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./style.module.css"; //已启用 CSS Modules
 
-const SvgIcon = props => {
+const SvgIcon = (props) => {
   const { iconName, fill, className } = props;
 
   return (
@@ -580,12 +635,12 @@ SvgIcon.propTypes = {
   // svg名字
   iconName: PropTypes.string.isRequired,
   // 填充颜色
-  fill: PropTypes.string
+  fill: PropTypes.string,
 };
 
 SvgIcon.defaultProps = {
   fill: "currentColor",
-  className: styles["svg-class"]
+  className: styles["svg-class"],
 };
 
 export default SvgIcon;
@@ -659,7 +714,7 @@ class App extends Component {
       .then(({ moduleDemo }) => {
         // Use moduleDemo
       })
-      .catch(err => {
+      .catch((err) => {
         // Handle failure
       });
   };
@@ -723,8 +778,8 @@ module.exports = {
      * 启用 prefetch
      * 构建项目自动加入prefetch方案
      */
-    prefetch: true
-  }
+    prefetch: true,
+  },
 };
 ```
 
@@ -803,10 +858,10 @@ module.exports = {
         // as they're likely a resource and not a SPA route.
         // URLs containing a "?" character won't be blacklisted as they're likely
         // a route with query params (e.g. auth callbacks).
-        new RegExp("/[^/?]+\\.[^/]+$")
-      ]
-    }
-  }
+        new RegExp("/[^/?]+\\.[^/]+$"),
+      ],
+    },
+  },
 };
 ```
 
@@ -840,15 +895,15 @@ const path = require("path");
 module.exports = {
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src")
-    }
+      "@": path.resolve(__dirname, "src"),
+    },
   },
   //扩展更多 loader
   module: {
-    rules: [{ test: /\.handlebars$/, loader: "handlebars-loader" }]
+    rules: [{ test: /\.handlebars$/, loader: "handlebars-loader" }],
   },
   //扩展更多plugins
-  plugins: [new I18nPlugin(languageConfig, optionsObj)]
+  plugins: [new I18nPlugin(languageConfig, optionsObj)],
 };
 ```
 
@@ -885,7 +940,7 @@ module.exports = {
     "postcss-aspect-ratio-mini": {},
     // to edit target browsers: use "browserslist" field in package.json
     "postcss-write-svg": {
-      uft8: false
+      uft8: false,
     },
     "postcss-px-to-viewport": {
       viewportWidth: 750, // 视窗的宽度，对应的是我们设计稿的宽度，一般是750
@@ -894,15 +949,15 @@ module.exports = {
       viewportUnit: "vw", // 指定需要转换成的视窗单位，建议使用vw
       selectorBlackList: [".ignore", ".hairlines"], // 指定不转换为视窗单位的类，可以自定义，可以无限添加,建议定义一至两个通用的类名
       minPixelValue: 1, // 小于或等于`1px`不转换为视窗单位，你也可以设置为你想要的值
-      mediaQuery: false // 允许在媒体查询中转换`px`
+      mediaQuery: false, // 允许在媒体查询中转换`px`
     },
     "postcss-viewport-units": {},
     cssnano: {
       preset: "advanced",
       autoprefixer: false, // 和cssnext同样具有autoprefixer，保留一个
-      "postcss-zindex": false
-    }
-  }
+      "postcss-zindex": false,
+    },
+  },
 };
 ```
 
@@ -947,8 +1002,8 @@ cjet 支持在项目根目录新建`babel.config.js`，扩展更多 babel 配置
 
 module.exports = {
   plugins: [
-    ["import", { libraryName: "antd-mobile", style: true }] // `style: true` 会加载 less 文件
-  ]
+    ["import", { libraryName: "antd-mobile", style: true }], // `style: true` 会加载 less 文件
+  ],
 };
 ```
 
@@ -967,8 +1022,8 @@ module.exports = {
     available: true, //开启eslint
     cache: true, //启用配置缓存，如果新配置不起作用请先设置为false
     useEslintrc: false, //使用项目中eslintrc配置
-    extends: [] //默认使用的eslint规则
-  }
+    extends: [], //默认使用的eslint规则
+  },
 };
 ```
 
@@ -1019,8 +1074,8 @@ module.exports = {
    * typescript配置
    */
   tsconfig: {
-    rewrite: true //是否使用框架内部最佳实践覆盖项目中的tsconfig.json
-  }
+    rewrite: true, //是否使用框架内部最佳实践覆盖项目中的tsconfig.json
+  },
 };
 ```
 
