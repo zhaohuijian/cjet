@@ -558,7 +558,7 @@ module.exports = {
 };
 ```
 
-你可以在`cjet.config.js`配置 svg 图标存放目录，目录下所有 .svg 将为编译为 SVG symbol 方式
+你可以在`cjet.config.js`配置 svg 图标存放目录，目录下所有 `.svg` 将为编译为 `SVG symbol` 方式
 
 ```js
 //cjet.config.js
@@ -573,7 +573,7 @@ module.exports = {
 };
 ```
 
-配置多个 svg 图标存放目录及要`忽略编译为SVG symbol`的目录：
+配置多个 svg 图标存放目录及要忽略编译的目录：
 
 ```js
 //cjet.config.js
