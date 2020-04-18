@@ -13,9 +13,50 @@
   <br>
 </p>
 
+
+- [cjet 前端工程构建工具](#cjet-%e5%89%8d%e7%ab%af%e5%b7%a5%e7%a8%8b%e6%9e%84%e5%bb%ba%e5%b7%a5%e5%85%b7)
+  - [特性](#%e7%89%b9%e6%80%a7)
+  - [快速开始](#%e5%bf%ab%e9%80%9f%e5%bc%80%e5%a7%8b)
+        - [1、确保你的项目为以下结构](#1%e7%a1%ae%e4%bf%9d%e4%bd%a0%e7%9a%84%e9%a1%b9%e7%9b%ae%e4%b8%ba%e4%bb%a5%e4%b8%8b%e7%bb%93%e6%9e%84)
+        - [2、在项目中安装 `cjet`](#2%e5%9c%a8%e9%a1%b9%e7%9b%ae%e4%b8%ad%e5%ae%89%e8%a3%85-cjet)
+        - [3、添加 script 配置](#3%e6%b7%bb%e5%8a%a0-script-%e9%85%8d%e7%bd%ae)
+  - [执行命令](#%e6%89%a7%e8%a1%8c%e5%91%bd%e4%bb%a4)
+  - [构建多页应用](#%e6%9e%84%e5%bb%ba%e5%a4%9a%e9%a1%b5%e5%ba%94%e7%94%a8)
+  - [`cjet` 配置文件](#cjet-%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6)
+  - [支持的浏览器和特性](#%e6%94%af%e6%8c%81%e7%9a%84%e6%b5%8f%e8%a7%88%e5%99%a8%e5%92%8c%e7%89%b9%e6%80%a7)
+      - [browserslist](#browserslist)
+  - [开发环境](#%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83)
+  - [样式开发](#%e6%a0%b7%e5%bc%8f%e5%bc%80%e5%8f%91)
+  - [使用图片，字体和文件](#%e4%bd%bf%e7%94%a8%e5%9b%be%e7%89%87%e5%ad%97%e4%bd%93%e5%92%8c%e6%96%87%e4%bb%b6)
+  - [使用 SVG 图标/图像](#%e4%bd%bf%e7%94%a8-svg-%e5%9b%be%e6%a0%87%e5%9b%be%e5%83%8f)
+        - [开始使用](#%e5%bc%80%e5%a7%8b%e4%bd%bf%e7%94%a8)
+  - [代码拆分（Code Splitting)](#%e4%bb%a3%e7%a0%81%e6%8b%86%e5%88%86code-splitting)
+      - [基于路由的代码拆分](#%e5%9f%ba%e4%ba%8e%e8%b7%af%e7%94%b1%e7%9a%84%e4%bb%a3%e7%a0%81%e6%8b%86%e5%88%86)
+  - [preload 和 prefetch](#preload-%e5%92%8c-prefetch)
+  - [使用 public 文件夹](#%e4%bd%bf%e7%94%a8-public-%e6%96%87%e4%bb%b6%e5%a4%b9)
+  - [使用 PWA（开发渐进式 WEB 应用程序）](#%e4%bd%bf%e7%94%a8-pwa%e5%bc%80%e5%8f%91%e6%b8%90%e8%bf%9b%e5%bc%8f-web-%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f)
+  - [Webpack 配置](#webpack-%e9%85%8d%e7%bd%ae)
+  - [PostCSS 配置](#postcss-%e9%85%8d%e7%bd%ae)
+  - [Babel 配置](#babel-%e9%85%8d%e7%bd%ae)
+  - [ESlint 配置](#eslint-%e9%85%8d%e7%bd%ae)
+  - [使用 TypeScript](#%e4%bd%bf%e7%94%a8-typescript)
+  - [使用环境变量](#%e4%bd%bf%e7%94%a8%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f)
+  - [待续...](#%e5%be%85%e7%bb%ad)
+  - [License](#license)
+
+
 # cjet 前端工程构建工具
 
 `cjet` 致力于使用 React 技术栈以系统性、组件化、标准化的过程方法开发和维护企业级应用软件。确保前端开发人员能够快速在 React 生态中将各种基础工具以零配置的方式与企业级业务需求的开发平稳衔接，让研发人员更专注于开发业务逻辑上，同时提供灵活的配置，以适合不同类型和规模的企业级应用。
+
+## 特性
+
+- [ ] 开发环境默认允许跨域,方便与乾坤微前端集成时测试
+- [ ] todo
+- [ ] todo
+- [ ] todo
+- [ ] todo
+- [ ] todo
 
 ## 快速开始
 
@@ -147,7 +188,7 @@ module.exports = {
    */
   svgSprite: {
     options: {
-      symbolId: "icon-[name]", //symbolId和use使用的名称
+      symbolId: 'icon-[name]', //symbolId和use使用的名称
     },
   },
 
@@ -167,16 +208,16 @@ module.exports = {
    * -------------------------------
    */
   paths: {
-    appPath: ".",
-    appSrc: "src", //源码目录，非src目录中的代码不做编译
-    appBuild: "dist", //生产目录
-    appPublic: "public", //静态资源目录
-    appIndexHtml: "src/index.html", //默认首页模板
-    appIndexJs: "src/index", //默认首页脚本文件
-    appPages: "src/pages", //多页面存放目录
-    svgIconPath: "src/icons", //svg 图标存放目录
-    proxySetup: "src/setupProxy.js", //proxy代理配置文件
-    appTypeDeclarations: "src/react-app-env.d.ts", //ts环境变量配置文件
+    appPath: '.',
+    appSrc: 'src', //源码目录，非src目录中的代码不做编译
+    appBuild: 'dist', //生产目录
+    appPublic: 'public', //静态资源目录
+    appIndexHtml: 'src/index.html', //默认首页模板
+    appIndexJs: 'src/index', //默认首页脚本文件
+    appPages: 'src/pages', //多页面存放目录
+    svgIconPath: 'src/icons', //svg 图标存放目录
+    proxySetup: 'src/setupProxy.js', //proxy代理配置文件
+    appTypeDeclarations: 'src/react-app-env.d.ts', //ts环境变量配置文件
   },
 
   /**
@@ -184,20 +225,20 @@ module.exports = {
    * More info see: https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
    */
   pwa: {
-    mode: "GenerateSW", // GenerateSW or InjectManifest
+    mode: 'GenerateSW', // GenerateSW or InjectManifest
     options: {
       clientsClaim: true,
       exclude: [/\.map$/, /asset-manifest\.json$/],
-      importWorkboxFrom: "cdn",
-      navigateFallback: "/index.html",
+      importWorkboxFrom: 'cdn',
+      navigateFallback: '/index.html',
       navigateFallbackBlacklist: [
         // Exclude URLs starting with /_, as they're likely an API call
-        new RegExp("^/_"),
+        new RegExp('^/_'),
         // Exclude any URLs whose last part seems to be a file extension
         // as they're likely a resource and not a SPA route.
         // URLs containing a "?" character won't be blacklisted as they're likely
         // a route with query params (e.g. auth callbacks).
-        new RegExp("/[^/?]+\\.[^/]+$"),
+        new RegExp('/[^/?]+\\.[^/]+$'),
       ],
     },
   },
@@ -288,10 +329,10 @@ yarn add http-proxy-middleware
 ```js
 //更多配置请参考：https://github.com/chimurai/http-proxy-middleware
 
-const { createProxyMiddleware } = require("http-proxy-middleware");
+const {createProxyMiddleware} = require('http-proxy-middleware');
 
 module.exports = function (app) {
-  app.use(createProxyMiddleware("/api", { target: "http://localhost:5000/" }));
+  app.use(createProxyMiddleware('/api', {target: 'http://localhost:5000/'}));
 };
 ```
 
@@ -330,8 +371,8 @@ HTTPS=true npm start
 **Button.js**
 
 ```js
-import React, { Component } from "react";
-import "./Button.css"; // 告诉 Webpack Button.js 使用这些样式
+import React, {Component} from 'react';
+import './Button.css'; // 告诉 Webpack Button.js 使用这些样式
 
 class Button extends Component {
   render() {
@@ -366,9 +407,9 @@ class Button extends Component {
 **Button.js**
 
 ```js
-import React, { Component } from "react";
-import styles from "./Button.module.css"; // 将 css modules 文件导入为 styles
-import "./another-stylesheet.css"; // 导入常规 CSS 文件
+import React, {Component} from 'react';
+import styles from './Button.module.css'; // 将 css modules 文件导入为 styles
+import './another-stylesheet.css'; // 导入常规 CSS 文件
 
 class Button extends Component {
   render() {
@@ -447,8 +488,8 @@ module.exports = {
 要减少对服务器的请求数，导入小于 10,000 字节的图片将返回 data URI 而不是路径。 这适用于以下文件扩展名：`bmp` ，`gif` ，`jpg` ，`jpeg` 和 `png` 。
 
 ```js
-import React from "react";
-import logo from "./logo.png"; // 告诉 cjet工程 这个 JS 文件使用了这个图片
+import React from 'react';
+import logo from './logo.png'; // 告诉 cjet工程 这个 JS 文件使用了这个图片
 
 console.log(logo); // /logo.84287d09.png
 
@@ -489,9 +530,8 @@ Webpack 在 CSS 中找到所有相关模块引用（它们以 `./` 开头），�
 在`src/icons`目录下创建`index.js`文件，用于自动导入`src/icons/svg`目录下所有 svg 图标。
 
 ```js
-const requireAll = (requireContext) =>
-  requireContext.keys().map(requireContext);
-const svgs = require.context("./svg", false, /\.svg$/);
+const requireAll = requireContext => requireContext.keys().map(requireContext);
+const svgs = require.context('./svg', false, /\.svg$/);
 requireAll(svgs);
 ```
 
@@ -510,27 +550,27 @@ src
 2、在项目入口引入`src/icons/index.js`用于导入所有 svg 图标，也可以按需导入单个或多个图标。
 
 ```js
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.less";
-import App from "./App";
-import "./icons"; //导入所有svg图标
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.less';
+import App from './App';
+import './icons'; //导入所有svg图标
 //import './icons/svg/logo.svg' //按需导入单个图标
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 3、在组件中使用 svg
 
 ```js
-import React, { Component } from "react";
-import styles from "./App.module.less";
+import React, {Component} from 'react';
+import styles from './App.module.less';
 
 class App extends Component {
   render() {
     return (
-      <div className={styles["App"]}>
-        <svg aria-hidden="true" className={styles["App-logo"]}>
+      <div className={styles['App']}>
+        <svg aria-hidden="true" className={styles['App-logo']}>
           <use xlinkHref="#icon-logo"></use>
         </svg>
       </div>
@@ -552,7 +592,7 @@ module.exports = {
    */
   svgSprite: {
     options: {
-      symbolId: "icon-[name]", //symbolId和use使用的名称
+      symbolId: 'icon-[name]', //symbolId和use使用的名称
     },
   },
 };
@@ -568,7 +608,7 @@ module.exports = {
      * svg 图标存放目录 此目录下所有 .svg 将为编译为SVG symbol
      * 如果设置为空，项目中所有.svg都将被编译
      */
-    svgIconPath: "src/icons", //svg 图标存放目录
+    svgIconPath: 'src/icons', //svg 图标存放目录
   },
 };
 ```
@@ -583,7 +623,7 @@ module.exports = {
      * v2.7.5以后版本支持配置多个目录，并且可以配置忽略路径
      */
     svgIconPath: {
-      include: ["src/icons1", "src/icons2", "src/icons3"],
+      include: ['src/icons1', 'src/icons2', 'src/icons3'],
       exclude: [],
     },
   },
@@ -595,16 +635,16 @@ module.exports = {
 1、创建`src/components/svgIcon/index.jsx`文件。
 
 ```js
-import React from "react";
-import PropTypes from "prop-types";
-import styles from "./style.module.css"; //已启用 CSS Modules
+import React from 'react';
+import PropTypes from 'prop-types';
+import styles from './style.module.css'; //已启用 CSS Modules
 
-const SvgIcon = (props) => {
-  const { iconName, fill, className } = props;
+const SvgIcon = props => {
+  const {iconName, fill, className} = props;
 
   return (
     <svg aria-hidden="true" className={className}>
-      <use xlinkHref={"#icon-" + iconName} fill={fill} />
+      <use xlinkHref={'#icon-' + iconName} fill={fill} />
     </svg>
   );
 };
@@ -617,8 +657,8 @@ SvgIcon.propTypes = {
 };
 
 SvgIcon.defaultProps = {
-  fill: "currentColor",
-  className: styles["svg-class"],
+  fill: 'currentColor',
+  className: styles['svg-class'],
 };
 
 export default SvgIcon;
@@ -639,23 +679,23 @@ export default SvgIcon;
 3、在组件中使用 svgIcon
 
 ```js
-import React, { Component } from "react";
-import styles from "./App.module.less";
-import SvgIcon from "./components/svgIcon"; //引入svgIcon组件
+import React, {Component} from 'react';
+import styles from './App.module.less';
+import SvgIcon from './components/svgIcon'; //引入svgIcon组件
 
 class App extends Component {
   render() {
     return (
-      <div className={styles["App"]}>
-        <div className={styles["App-header"]}>
-          <svg aria-hidden="true" className={styles["App-logo"]}>
+      <div className={styles['App']}>
+        <div className={styles['App-header']}>
+          <svg aria-hidden="true" className={styles['App-logo']}>
             <use xlinkHref="#icon-logo"></use>
           </svg>
         </div>
         <p>
           <SvgIcon iconName="antd-mobile" /> 基于antd mobile基础组件库
         </p>
-        <p className={styles["theme-icon"]}>
+        <p className={styles['theme-icon']}>
           <SvgIcon iconName="theme" fill="#ff0000" /> 支持antd
           mobile组件主题定制
         </p>
@@ -676,23 +716,23 @@ cjet 支持通过 [动态 import()](https://2ality.com/2017/01/import-operator.h
 **moduleDemo.js**
 
 ```js
-const moduleDemo = "Hello";
+const moduleDemo = 'Hello';
 
-export { moduleDemo };
+export {moduleDemo};
 ```
 
 **app.js**
 
 ```js
-import React, { Component } from "react";
+import React, {Component} from 'react';
 
 class App extends Component {
   handleClick = () => {
-    import("./moduleDemo")
-      .then(({ moduleDemo }) => {
+    import('./moduleDemo')
+      .then(({moduleDemo}) => {
         // Use moduleDemo
       })
-      .catch((err) => {
+      .catch(err => {
         // Handle failure
       });
   };
@@ -823,20 +863,20 @@ module.exports = {
    * More info see: https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
    */
   pwa: {
-    mode: "GenerateSW", // GenerateSW or InjectManifest
+    mode: 'GenerateSW', // GenerateSW or InjectManifest
     options: {
       clientsClaim: true,
       exclude: [/\.map$/, /asset-manifest\.json$/],
-      importWorkboxFrom: "cdn",
-      navigateFallback: "/index.html",
+      importWorkboxFrom: 'cdn',
+      navigateFallback: '/index.html',
       navigateFallbackBlacklist: [
         // Exclude URLs starting with /_, as they're likely an API call
-        new RegExp("^/_"),
+        new RegExp('^/_'),
         // Exclude any URLs whose last part seems to be a file extension
         // as they're likely a resource and not a SPA route.
         // URLs containing a "?" character won't be blacklisted as they're likely
         // a route with query params (e.g. auth callbacks).
-        new RegExp("/[^/?]+\\.[^/]+$"),
+        new RegExp('/[^/?]+\\.[^/]+$'),
       ],
     },
   },
@@ -869,16 +909,16 @@ cjet 工程使用 webpack 作为模块打包工具，根据众多业务场景，
 ```js
 //webpack.config.js
 
-const path = require("path");
+const path = require('path');
 module.exports = {
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      '@': path.resolve(__dirname, 'src'),
     },
   },
   //扩展更多 loader
   module: {
-    rules: [{ test: /\.handlebars$/, loader: "handlebars-loader" }],
+    rules: [{test: /\.handlebars$/, loader: 'handlebars-loader'}],
   },
   //扩展更多plugins
   plugins: [new I18nPlugin(languageConfig, optionsObj)],
@@ -915,25 +955,25 @@ cjet 支持 PostCSS 的灵活配置，只需在项目根目录新建`postcss.con
 
 module.exports = {
   plugins: {
-    "postcss-aspect-ratio-mini": {},
+    'postcss-aspect-ratio-mini': {},
     // to edit target browsers: use "browserslist" field in package.json
-    "postcss-write-svg": {
+    'postcss-write-svg': {
       uft8: false,
     },
-    "postcss-px-to-viewport": {
+    'postcss-px-to-viewport': {
       viewportWidth: 750, // 视窗的宽度，对应的是我们设计稿的宽度，一般是750
       viewportHeight: 1334, // 视窗的高度，根据750设备的宽度来指定，一般指定1334，也可以不配置
       unitPrecision: 3, // 指定`px`转换为视窗单位值的小数位数（很多时候无法整除）
-      viewportUnit: "vw", // 指定需要转换成的视窗单位，建议使用vw
-      selectorBlackList: [".ignore", ".hairlines"], // 指定不转换为视窗单位的类，可以自定义，可以无限添加,建议定义一至两个通用的类名
+      viewportUnit: 'vw', // 指定需要转换成的视窗单位，建议使用vw
+      selectorBlackList: ['.ignore', '.hairlines'], // 指定不转换为视窗单位的类，可以自定义，可以无限添加,建议定义一至两个通用的类名
       minPixelValue: 1, // 小于或等于`1px`不转换为视窗单位，你也可以设置为你想要的值
       mediaQuery: false, // 允许在媒体查询中转换`px`
     },
-    "postcss-viewport-units": {},
+    'postcss-viewport-units': {},
     cssnano: {
-      preset: "advanced",
+      preset: 'advanced',
       autoprefixer: false, // 和cssnext同样具有autoprefixer，保留一个
-      "postcss-zindex": false,
+      'postcss-zindex': false,
     },
   },
 };
@@ -980,7 +1020,7 @@ cjet 支持在项目根目录新建`babel.config.js`，扩展更多 babel 配置
 
 module.exports = {
   plugins: [
-    ["import", { libraryName: "antd-mobile", style: true }], // `style: true` 会加载 less 文件
+    ['import', {libraryName: 'antd-mobile', style: true}], // `style: true` 会加载 less 文件
   ],
 };
 ```
@@ -1121,17 +1161,17 @@ REACT_APP_ENVDEMO_CODE=abcdef
 
 | 变量                 | Development | Production | 用法                                                                                                                                                                                                                                                                                                                                                 |
 | -------------------- | ----------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| BROWSER              | ✅ 支持     | 🚫 不支持  | 默认情况下，`cjet` 将打开默认系统浏览器，支持 macOS 上的 Chrome 。 指定 browser 以覆盖此行为，或将其设置为 none 以完全禁用它。 如果需要自定义启动浏览器的方式，则可以指定一个 node 脚本。 传递给 `yarn dev` 的任何参数也将传递给此脚本，并且提供应用程序的 url 将是最后一个参数。 你的脚本的文件名必须以 .js 为扩展名。                              |
-| HOST                 | ✅ 支持     | 🚫 不支持  | 默认情况下，开发 Web 服务器绑定到 localhost 。你可以使用此变量指定其他主机。                                                                                                                                                                                                                                                                         |
-| PORT                 | ✅ 支持     | 🚫 不支持  | 默认情况下，开发 Web 服务器将尝试侦听端口 8080 或提示你尝试下一个可用端口。你可以使用此变量指定其他端口。                                                                                                                                                                                                                                            |
-| HTTPS                | ✅ 支持     | 🚫 不支持  | 设置为 true 时，`cjet` 将以 https 模式运行开发服务器。                                                                                                                                                                                                                                                                                               |
-| PUBLIC_URL           | 🚫 不支持   | ✅ 支持    | `cjet` 假定你的应用程序托管在服务 Web 服务器的根目录或 package.json (homepage) 中指定的子路径。 通常，`cjet` 会忽略主机名。 你可以使用此变量强制资源逐字引用到你提供的 URL（`hostname`）。 当使用 CDN 托管你的应用程序时，这可能特别有用。                                                                                                           |
-| CI                   | ✅ 支持     | ✅ 支持    | 设置为 true 时，`cjet` 会将警告视为构建中的失败。这也使得 测试运行 不能检测到。大多数 CI 默认设置此标志。                                                                                                                                                                                                                                            |
-| REACT_EDITOR         | ✅ 支持     | 🚫 不支持  | 当应用程序在开发过程中崩溃时，你将看到带有可点击堆栈跟踪的错误覆盖。 当你单击它时，`cjet` 将尝试根据当前正在运行的进程确定你正在使用的编辑器，并打开相关的源文件。 你可以 发送拉取请求以检测你选择的编辑器。 设置此环境变量会覆盖自动检测。 如果这样做，请确保你的系统 PATH 环境变量指向编辑器的 bin 文件夹。 你也可以将其设置为 none 以完全禁用它。 |
-| CHOKIDAR_USEPOLLING  | ✅ 支持     | 🚫 不支持  | 设置为 true 时，watcher 在 VM 内部根据需要以轮询模式运行。如果 `yarn dev` 未检测到更改，请使用此选项。                                                                                                                                                                                                                                               |
-| GENERATE_SOURCEMAP   | 🚫 不支持   | ✅ 支持    | 设置为 false 时，不会为生产构建生成源映射。这解决了一些小型机器上的 OOM 问题。                                                                                                                                                                                                                                                                       |
-| NODE_PATH            | ✅ 支持     | ✅ 支持    | 与 Node.js 中的 NODE_PATH 相同，但只允许相关文件夹。通过设置 `NODE_PATH=src`可以方便地模拟 monorepo 设置。                                                                                                                                                                                                                                           |
-| INLINE_RUNTIME_CHUNK | 🚫 不支持   | ✅ 支持    | 默认情况下，`cjet`会在生成构建期间将运行时脚本嵌入到 index.html 中。设置为 false 时，脚本将不会嵌入，并将照常导入。在处理 CSP 时通常需要这样做。                                                                                                                                                                                                     |
+| BROWSER              | ✅ 支持      | 🚫 不支持   | 默认情况下，`cjet` 将打开默认系统浏览器，支持 macOS 上的 Chrome 。 指定 browser 以覆盖此行为，或将其设置为 none 以完全禁用它。 如果需要自定义启动浏览器的方式，则可以指定一个 node 脚本。 传递给 `yarn dev` 的任何参数也将传递给此脚本，并且提供应用程序的 url 将是最后一个参数。 你的脚本的文件名必须以 .js 为扩展名。                              |
+| HOST                 | ✅ 支持      | 🚫 不支持   | 默认情况下，开发 Web 服务器绑定到 localhost 。你可以使用此变量指定其他主机。                                                                                                                                                                                                                                                                         |
+| PORT                 | ✅ 支持      | 🚫 不支持   | 默认情况下，开发 Web 服务器将尝试侦听端口 8080 或提示你尝试下一个可用端口。你可以使用此变量指定其他端口。                                                                                                                                                                                                                                            |
+| HTTPS                | ✅ 支持      | 🚫 不支持   | 设置为 true 时，`cjet` 将以 https 模式运行开发服务器。                                                                                                                                                                                                                                                                                               |
+| PUBLIC_URL           | 🚫 不支持    | ✅ 支持     | `cjet` 假定你的应用程序托管在服务 Web 服务器的根目录或 package.json (homepage) 中指定的子路径。 通常，`cjet` 会忽略主机名。 你可以使用此变量强制资源逐字引用到你提供的 URL（`hostname`）。 当使用 CDN 托管你的应用程序时，这可能特别有用。                                                                                                           |
+| CI                   | ✅ 支持      | ✅ 支持     | 设置为 true 时，`cjet` 会将警告视为构建中的失败。这也使得 测试运行 不能检测到。大多数 CI 默认设置此标志。                                                                                                                                                                                                                                            |
+| REACT_EDITOR         | ✅ 支持      | 🚫 不支持   | 当应用程序在开发过程中崩溃时，你将看到带有可点击堆栈跟踪的错误覆盖。 当你单击它时，`cjet` 将尝试根据当前正在运行的进程确定你正在使用的编辑器，并打开相关的源文件。 你可以 发送拉取请求以检测你选择的编辑器。 设置此环境变量会覆盖自动检测。 如果这样做，请确保你的系统 PATH 环境变量指向编辑器的 bin 文件夹。 你也可以将其设置为 none 以完全禁用它。 |
+| CHOKIDAR_USEPOLLING  | ✅ 支持      | 🚫 不支持   | 设置为 true 时，watcher 在 VM 内部根据需要以轮询模式运行。如果 `yarn dev` 未检测到更改，请使用此选项。                                                                                                                                                                                                                                               |
+| GENERATE_SOURCEMAP   | 🚫 不支持    | ✅ 支持     | 设置为 false 时，不会为生产构建生成源映射。这解决了一些小型机器上的 OOM 问题。                                                                                                                                                                                                                                                                       |
+| NODE_PATH            | ✅ 支持      | ✅ 支持     | 与 Node.js 中的 NODE_PATH 相同，但只允许相关文件夹。通过设置 `NODE_PATH=src`可以方便地模拟 monorepo 设置。                                                                                                                                                                                                                                           |
+| INLINE_RUNTIME_CHUNK | 🚫 不支持    | ✅ 支持     | 默认情况下，`cjet`会在生成构建期间将运行时脚本嵌入到 index.html 中。设置为 false 时，脚本将不会嵌入，并将照常导入。在处理 CSP 时通常需要这样做。                                                                                                                                                                                                     |
 
 ## 待续...
 
