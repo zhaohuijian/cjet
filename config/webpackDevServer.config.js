@@ -112,5 +112,9 @@ module.exports = function (proxy, allowedHost) {
       // update soon later
       // app.use(noopServiceWorkerMiddleware());
     },
+    // 默认允许跨域，方便与乾坤集成
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
   };
 };
