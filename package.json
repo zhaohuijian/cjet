@@ -1,6 +1,6 @@
 {
-  "name": "@chanjet/cjet",
-  "version": "2.7.5",
+  "name": "cjet-cli",
+  "version": "1.0.0",
   "description": "前端React工程构建工具",
   "license": "MIT",
   "engines": {
