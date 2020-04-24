@@ -1,7 +1,3 @@
-const getAssetKind = require('./getAssetKind');
-const isHMRUpdate = require('./isHMRUpdate');
-const isSourceMap = require('./isSourceMap');
-const toposort = require('toposort');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const pluginName = 'ConsoleLogOnBuildWebpackPlugin';
 const Source = require('webpack-sources').Source;
@@ -33,45 +29,36 @@ class ConsoleLogOnBuildWebpackPlugin {
           source: false,
         });
 
-        const outputOptions = compilation.mainTemplate.outputOptions;
+        // 获取入口 chunk
+        const entryChunk = stats.chunks.find(chunk => chunk.entry === true);
 
-        // 从chunks列表中过滤 入口 chunk 和 初始 chunk
-        const chunkObj = self.filterChunks(stats.chunks);
-        const initialChunks = self.sortByDependency(chunkObj.initialChunks);
-        // console.log(
-        //   Object.keys(assets),
-        //   stats.chunks,
-        //   // '\n\n',
-        //   '初始化',
-        //   chunkObj.initialChunks,
-        //   '入口点',
-        //   chunkObj.entryChunks
-        // );
+        // 异常检查
+        if (entryChunk.files.length !== 1) {
+          throw new Error('[chanjet-mainfest-chunk-plugin] 插件不支持多入口点');
+        }
+        // 与入口chunk同级chunk的id, 反向排序后得到初始chunk正确依赖顺序
+        const siblingsIds = entryChunk.siblings.reverse();
 
-        //
-        let entryFileName = '';
         let initialScriptNameArr = [];
         let initialLinkNameArr = [];
 
-        if (chunkObj.entryChunks.length === 1) {
-          const entryFileNames = self.filterAssetNameForChunkFiles(chunkObj.entryChunks[0], compilerOptions);
-          entryFileName = entryFileNames.assetScriptNames[0];
-        } else {
-          throw new Error("don't support multi entry in the version!");
-        }
-
-        initialChunks.forEach(chunkItem => {
-          const assetNames = self.filterAssetNameForChunkFiles(chunkItem, compilerOptions);
-          initialScriptNameArr = initialScriptNameArr.concat(assetNames.assetScriptNames);
-          initialLinkNameArr = initialLinkNameArr.concat(assetNames.assetLinkNames);
+        // 按依赖关系抽取 css, js
+        siblingsIds.forEach(chunkId => {
+          const chunk = stats.chunks.find(ck => ck.id === chunkId);
+          chunk.files.forEach(name => {
+            /\.js$/.test(name) && initialScriptNameArr.push(name);
+            /\.css$/.test(name) && initialLinkNameArr.push(name);
+          });
         });
 
+        // 入口chunk的名称
+        let entryFileName = entryChunk.files[0];
+
         // 生成自定义载入脚本
+        const outputOptions = compilation.mainTemplate.outputOptions;
         const extraSources = self.assembleInitialSources(outputOptions, initialScriptNameArr, initialLinkNameArr);
 
         let entrySource = assets[entryFileName];
-
-        // console.log('======>', entrySource.source());
 
         // 如果是缓存，直接读取缓存
         if (assets[entryFileName] instanceof CachedSource) {
@@ -92,120 +79,6 @@ class ConsoleLogOnBuildWebpackPlugin {
 
       //
     });
-  }
-
-  filterAssetNameForChunkFiles(chunk, options) {
-    const assetScriptNames = [],
-      assetLinkNames = [];
-    const assets = chunk.files;
-    if (Array.isArray(assets)) {
-      for (let i = 0; i < assets.length; i++) {
-        const asset = assets[i];
-        if (isHMRUpdate(options, asset) || isSourceMap(options, asset)) {
-          continue;
-        }
-        const typeName = getAssetKind(options, asset);
-        if (typeName === 'js') {
-          assetScriptNames.push(asset);
-        }
-
-        if (typeName === 'css') {
-          assetLinkNames.push(asset);
-        }
-      }
-    }
-    return {assetScriptNames: assetScriptNames, assetLinkNames: assetLinkNames};
-  }
-
-  /**
-   * 筛选  chunk
-   * @params chunks 所有的 chunk 集合
-   * @returns entry chunk and initialize chunks
-   */
-  filterChunks(chunks) {
-    const entryChunks = [],
-      initialChunks = [];
-    chunks.forEach(function (chunk) {
-      let chunkName = '';
-      if (chunk.names && Array.isArray(chunk.names)) {
-        chunkName = chunk.names[0];
-      }
-      if (!chunkName) {
-        return;
-      }
-      // This chunk doesn't have a name. This script can't handled it.
-      if (chunkName === undefined) {
-        return;
-      }
-      // Skip if the chunk should be lazy loaded
-      if (typeof chunk.isInitial === 'function') {
-        if (!chunk.isInitial()) {
-          return;
-        }
-      } else if (!chunk.initial) {
-        return;
-      }
-
-      //  入口 本身
-      if (chunk.entry === true) {
-        entryChunks.push(chunk);
-        return;
-      }
-      // Add otherwise
-      initialChunks.push(chunk);
-      return;
-    });
-
-    return {
-      entryChunks,
-      initialChunks,
-    };
-  }
-
-  /**
-   * @params chunks 必须要是 数组
-   */
-  sortByDependency(chunks) {
-    if (!chunks) {
-      return chunks;
-    }
-
-    if (this.entriesSequence instanceof Array) {
-      const result = [];
-      chunks.sort((a, b) => {
-        const aIndex = this.entriesSequence.findIndex(item => a.names.toString().indexOf(item) > -1);
-        const bIndex = this.entriesSequence.findIndex(item => b.names.toString().indexOf(item) > -1);
-        return aIndex - bIndex;
-      });
-      return chunks;
-    }
-
-    // We build a map (chunk-id -> chunk) for faster access during graph building.
-    var nodeMap = {};
-
-    chunks.forEach(function (chunk) {
-      nodeMap[chunk.id] = chunk;
-    });
-
-    // Next, we add an edge for each parent relationship into the graph
-    var edges = [];
-
-    chunks.forEach(function (chunk) {
-      if (chunk.parents) {
-        // Add an edge for each parent (parent -> child)
-        chunk.parents.forEach(function (parentId) {
-          // webpack2 chunk.parents are chunks instead of string id(s)
-          var parentChunk = parentId instanceof Object ? parentId : nodeMap[parentId];
-          // If the parent chunk does not exist (e.g. because of an excluded chunk)
-          // we ignore that parent
-          if (parentChunk) {
-            edges.push([parentChunk, chunk]);
-          }
-        });
-      }
-    });
-    // We now perform a topological sorting on the input chunks and built edges
-    return toposort.array(chunks, edges);
   }
 
   /**
