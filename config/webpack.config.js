@@ -36,7 +36,7 @@ const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpack
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 // chanjet-manifest-chunk-plugin
 // const ChanjetManifestChunkPlugin = require('@chanjet/chanjet-manifest-chunk-plugin');
-const ChanjetManifestChunkPlugin = require('../plugins/chanjet-manifest-chunk-plugin');
+const ChanjetManifestChunkPlugin = require('../plugins/chanjet-mainfest-chunk-plugin');
 
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 
@@ -135,6 +135,7 @@ module.exports = function (webpackEnv) {
         },
       },
     ].filter(Boolean);
+
     if (preProcessor) {
       let resolvedLoader;
       try {
@@ -278,7 +279,7 @@ module.exports = function (webpackEnv) {
       // https://twitter.com/wSokra/status/969679223278505985
       // https://github.com/facebook/create-react-app/issues/5358
       runtimeChunk: {
-        name: 'manifest',
+        name: 'mainfest',
       },
     },
     resolve: {
@@ -708,28 +709,28 @@ module.exports = function (webpackEnv) {
       */
 
       // todo stop TypeScript type checking
-      !useTypeScript &&
-        new ForkTsCheckerWebpackPlugin({
-          typescript: resolve.sync('typescript', {
-            basedir: paths.appNodeModules,
-          }),
-          async: isEnvDevelopment,
-          useTypescriptIncrementalApi: true,
-          checkSyntacticErrors: true,
-          resolveModuleNameModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
-          resolveTypeReferenceDirectiveModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
-          tsconfig: paths.appTsConfig,
-          reportFiles: [
-            '**',
-            '!**/__tests__/**',
-            '!**/?(*.)(spec|test).*',
-            '!**/src/setupProxy.*',
-            '!**/src/setupTests.*',
-          ],
-          silent: true,
-          // The formatter is invoked directly in WebpackDevServerUtils during development
-          formatter: isEnvProduction ? typescriptFormatter : undefined,
-        }),
+      // !useTypeScript &&
+      //   new ForkTsCheckerWebpackPlugin({
+      //     typescript: resolve.sync('typescript', {
+      //       basedir: paths.appNodeModules,
+      //     }),
+      //     async: isEnvDevelopment,
+      //     useTypescriptIncrementalApi: true,
+      //     checkSyntacticErrors: true,
+      //     resolveModuleNameModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
+      //     resolveTypeReferenceDirectiveModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
+      //     tsconfig: paths.appTsConfig,
+      //     reportFiles: [
+      //       '**',
+      //       '!**/__tests__/**',
+      //       '!**/?(*.)(spec|test).*',
+      //       '!**/src/setupProxy.*',
+      //       '!**/src/setupTests.*',
+      //     ],
+      //     silent: true,
+      //     // The formatter is invoked directly in WebpackDevServerUtils during development
+      //     formatter: isEnvProduction ? typescriptFormatter : undefined,
+      //   }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.

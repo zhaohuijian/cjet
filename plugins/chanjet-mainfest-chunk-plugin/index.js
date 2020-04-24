@@ -1,26 +1,20 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const pluginName = 'ConsoleLogOnBuildWebpackPlugin';
 const Source = require('webpack-sources').Source;
 const RawSource = require('webpack-sources').RawSource;
 const CachedSource = require('webpack-sources').CachedSource;
 const ConcatSource = require('webpack-sources').ConcatSource;
 
+const pluginName = 'ChanjetMainfestChunkPlugin';
 class ConsoleLogOnBuildWebpackPlugin {
   constructor(options) {
-    // 入口文件 排列 顺序。可以从外部指定
-    this.entriesSequence = options && options.entriesSequence;
     this.requireScriptFn = '__loadScript__';
     this.requireLinkFn = '__loadLink__';
   }
   apply(compiler) {
-    // must be webpack 4 and html-webpack-plugin 4
-
     const self = this;
-    const compilerOptions = compiler.options;
-
-    compiler.hooks.thisCompilation.tap(pluginName, (compilation, callback) => {
+    // must be webpack 4
+    compiler.hooks.thisCompilation.tap(pluginName, compilation => {
       compilation.hooks.afterOptimizeAssets.tap(pluginName, function (assets) {
-        // 获取 stats 只保留 hash, assets, chunk
+        // 获取 stats 序列化时只保留 hash, assets, chunk
         const stats = compilation.getStats().toJson({
           hash: true,
           assets: true,
@@ -32,11 +26,15 @@ class ConsoleLogOnBuildWebpackPlugin {
         // 获取入口 chunk
         const entryChunk = stats.chunks.find(chunk => chunk.entry === true);
 
-        // 异常检查
-        if (entryChunk.files.length !== 1) {
-          throw new Error('[chanjet-mainfest-chunk-plugin] 插件不支持多入口点');
+        // 检查以下两种情况
+        // 1. 找不到入口chunk
+        // 2. 存在多个入口chunk
+        if (!entryChunk || entryChunk.files.length !== 1) {
+          throw new Error(
+            '[chanjet-mainfest-chunk-plugin] 找不到入口chunk,或存在多个入口chunk，插件只支持单个入口chunk'
+          );
         }
-        // 与入口chunk同级chunk的id, 反向排序后得到初始chunk正确依赖顺序
+        // 与入口chunk同级的chunk id, 反向排序后得到初始chunk正确依赖顺序
         const siblingsIds = entryChunk.siblings.reverse();
 
         let initialScriptNameArr = [];
@@ -45,9 +43,9 @@ class ConsoleLogOnBuildWebpackPlugin {
         // 按依赖关系抽取 css, js
         siblingsIds.forEach(chunkId => {
           const chunk = stats.chunks.find(ck => ck.id === chunkId);
-          chunk.files.forEach(name => {
-            /\.js$/.test(name) && initialScriptNameArr.push(name);
-            /\.css$/.test(name) && initialLinkNameArr.push(name);
+          chunk.files.forEach(filename => {
+            /\.js$/.test(filename) && initialScriptNameArr.push(filename);
+            /\.css$/.test(filename) && initialLinkNameArr.push(filename);
           });
         });
 
@@ -58,9 +56,10 @@ class ConsoleLogOnBuildWebpackPlugin {
         const outputOptions = compilation.mainTemplate.outputOptions;
         const extraSources = self.assembleInitialSources(outputOptions, initialScriptNameArr, initialLinkNameArr);
 
+        // 入口chunk的代码,正常情况下应该是webpack的运行时代码
         let entrySource = assets[entryFileName];
 
-        // 如果是缓存，直接读取缓存
+        // 如果存在缓存，直接读取缓存
         if (assets[entryFileName] instanceof CachedSource) {
           entrySource = assets[entryFileName]._source;
         }
@@ -70,7 +69,7 @@ class ConsoleLogOnBuildWebpackPlugin {
           entrySource.children.splice(1, 0, raw); // todo: 排除 sourcemap ，写死放在第二行
           return;
         }
-
+        // jenkins构建时因为是全新构建所以不会缓存会走这里
         if (entrySource.__proto__ instanceof Source) {
           assets[entryFileName] = new RawSource(self.appendString([entrySource.source(), extraSources]));
           return;
@@ -135,27 +134,7 @@ class ConsoleLogOnBuildWebpackPlugin {
       'script.async = true;',
       `script.timeout = ${chunkLoadTimeout};`,
       crossOriginLoading ? `script.crossOrigin = ${JSON.stringify(crossOriginLoading)};` : '',
-      // `if (${this.requireFn}.nc) {`,
-      // this.indent(`script.setAttribute("nonce", ${this.requireFn}.nc);`),
-      // "}",
       `script.src = "${publicPath || ''}" + scriptName;`,
-      // `var timeout = setTimeout(onScriptComplete, ${chunkLoadTimeout});`,
-      // "script.onerror = script.onload = onScriptComplete;",
-      // "function onScriptComplete() {",
-      // this.indent([
-      //     "// avoid mem leaks in IE.",
-      //     "script.onerror = script.onload = null;",
-      //     "clearTimeout(timeout);",
-      //     "var chunk = installedChunks[chunkId];",
-      //     "if(chunk !== 0) {",
-      //     this.indent([
-      //         "if(chunk) {",
-      //         this.indent("chunk[1](new Error('Loading chunk ' + chunkId + ' failed.'));"),
-      //         "}",
-      //         "installedChunks[chunkId] = undefined;"
-      //     ]),
-      //     "}"
-      // ]),
       'head.appendChild(script);',
       '};',
     ]);
