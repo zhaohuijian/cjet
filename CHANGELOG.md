@@ -1,3 +1,32 @@
+# v2.8.0 / 2020-04-24
+
+### 🐛 Bug Fixes
+
+- `general`
+  - #1 WebpackHotDevClient 建立 websocket 连接时端口错误 close
+
+### 🚀 Features
+
+- `general`
+  - Webpack 默认配置调整 1. 引入 chanjet-manifest-chunk-plugin 2. 临时关闭 ForkTsCheckerWebpackPlugin 3. runtimeChunk 默认名称为 mainfest 适应部署 4. shouldInlineRuntimeChunk 默认为 false , 通过环境变量 INLINE_RUNTIME_CHUNK 手动开启 5. 调整输出目录 css 输出到 css/_, chunk 输出到 js/_
+  - 更改 webpackDevServer 配置，允许跨域方便与乾坤集成
+
+### 💅 Refactors
+
+- `general`
+  - 调整包名为 cjet-cli
+
+### 🏡 Chore
+
+- `general`
+  - Add internal script changelog
+  - Add CHANGELOG.md
+  - Add prettierrc
+
+### 💖 Thanks to
+
+- gaoletian
+
 # v2.7.5 / 2020-04-09
 
 - v2.7.5
