@@ -38,15 +38,15 @@ class ConsoleLogOnBuildWebpackPlugin {
         // 从chunks列表中过滤 入口 chunk 和 初始 chunk
         const chunkObj = self.filterChunks(stats.chunks);
         const initialChunks = self.sortByDependency(chunkObj.initialChunks);
-        console.log(
-          Object.keys(assets),
-          // stats.chunks,
-          // '\n\n',
-          '初始化',
-          chunkObj.initialChunks,
-          '入口点',
-          chunkObj.entryChunks
-        );
+        // console.log(
+        //   Object.keys(assets),
+        //   stats.chunks,
+        //   // '\n\n',
+        //   '初始化',
+        //   chunkObj.initialChunks,
+        //   '入口点',
+        //   chunkObj.entryChunks
+        // );
 
         //
         let entryFileName = '';
@@ -54,38 +54,24 @@ class ConsoleLogOnBuildWebpackPlugin {
         let initialLinkNameArr = [];
 
         if (chunkObj.entryChunks.length === 1) {
-          const entryFileNames = self.filterAssetNameForChunkFiles(
-            chunkObj.entryChunks[0],
-            compilerOptions
-          );
+          const entryFileNames = self.filterAssetNameForChunkFiles(chunkObj.entryChunks[0], compilerOptions);
           entryFileName = entryFileNames.assetScriptNames[0];
         } else {
           throw new Error("don't support multi entry in the version!");
         }
 
         initialChunks.forEach(chunkItem => {
-          const assetNames = self.filterAssetNameForChunkFiles(
-            chunkItem,
-            compilerOptions
-          );
-          initialScriptNameArr = initialScriptNameArr.concat(
-            assetNames.assetScriptNames
-          );
-          initialLinkNameArr = initialLinkNameArr.concat(
-            assetNames.assetLinkNames
-          );
+          const assetNames = self.filterAssetNameForChunkFiles(chunkItem, compilerOptions);
+          initialScriptNameArr = initialScriptNameArr.concat(assetNames.assetScriptNames);
+          initialLinkNameArr = initialLinkNameArr.concat(assetNames.assetLinkNames);
         });
 
         // 生成自定义载入脚本
-        const extraSources = self.assembleInitialSources(
-          outputOptions,
-          initialScriptNameArr,
-          initialLinkNameArr
-        );
+        const extraSources = self.assembleInitialSources(outputOptions, initialScriptNameArr, initialLinkNameArr);
 
         let entrySource = assets[entryFileName];
 
-        console.log('======>', entrySource.source());
+        // console.log('======>', entrySource.source());
 
         // 如果是缓存，直接读取缓存
         if (assets[entryFileName] instanceof CachedSource) {
@@ -99,9 +85,7 @@ class ConsoleLogOnBuildWebpackPlugin {
         }
 
         if (entrySource.__proto__ instanceof Source) {
-          assets[entryFileName] = new RawSource(
-            self.appendString([entrySource.source(), extraSources])
-          );
+          assets[entryFileName] = new RawSource(self.appendString([entrySource.source(), extraSources]));
           return;
         }
       });
@@ -189,12 +173,8 @@ class ConsoleLogOnBuildWebpackPlugin {
     if (this.entriesSequence instanceof Array) {
       const result = [];
       chunks.sort((a, b) => {
-        const aIndex = this.entriesSequence.findIndex(
-          item => a.names.toString().indexOf(item) > -1
-        );
-        const bIndex = this.entriesSequence.findIndex(
-          item => b.names.toString().indexOf(item) > -1
-        );
+        const aIndex = this.entriesSequence.findIndex(item => a.names.toString().indexOf(item) > -1);
+        const bIndex = this.entriesSequence.findIndex(item => b.names.toString().indexOf(item) > -1);
         return aIndex - bIndex;
       });
       return chunks;
@@ -215,8 +195,7 @@ class ConsoleLogOnBuildWebpackPlugin {
         // Add an edge for each parent (parent -> child)
         chunk.parents.forEach(function (parentId) {
           // webpack2 chunk.parents are chunks instead of string id(s)
-          var parentChunk =
-            parentId instanceof Object ? parentId : nodeMap[parentId];
+          var parentChunk = parentId instanceof Object ? parentId : nodeMap[parentId];
           // If the parent chunk does not exist (e.g. because of an excluded chunk)
           // we ignore that parent
           if (parentChunk) {
@@ -235,11 +214,7 @@ class ConsoleLogOnBuildWebpackPlugin {
    * @parmas initialLinkArr 初始化 CSS 入口 资源
    * @returns 返回 装配好了的 模块 代码
    */
-  assembleInitialSources(
-    outputOptions,
-    initialScriptNameArr,
-    initialLinkNameArr
-  ) {
+  assembleInitialSources(outputOptions, initialScriptNameArr, initialLinkNameArr) {
     const buf = [''];
     // buf.push("(function() { ");
     buf.push(this.downloadLinkFn(outputOptions && outputOptions.publicPath));
@@ -275,8 +250,7 @@ class ConsoleLogOnBuildWebpackPlugin {
   }
 
   downloadScriptFn(outputOptions) {
-    const crossOriginLoading =
-      outputOptions && outputOptions.crossOriginLoading;
+    const crossOriginLoading = outputOptions && outputOptions.crossOriginLoading;
     const chunkLoadTimeout = outputOptions && outputOptions.chunkLoadTimeout;
     const publicPath = outputOptions && outputOptions.publicPath;
     return this.appendString([
@@ -287,9 +261,7 @@ class ConsoleLogOnBuildWebpackPlugin {
       "script.charset = 'utf-8';",
       'script.async = true;',
       `script.timeout = ${chunkLoadTimeout};`,
-      crossOriginLoading
-        ? `script.crossOrigin = ${JSON.stringify(crossOriginLoading)};`
-        : '',
+      crossOriginLoading ? `script.crossOrigin = ${JSON.stringify(crossOriginLoading)};` : '',
       // `if (${this.requireFn}.nc) {`,
       // this.indent(`script.setAttribute("nonce", ${this.requireFn}.nc);`),
       // "}",
