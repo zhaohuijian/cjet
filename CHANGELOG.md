@@ -1,3 +1,16 @@
+v2.8.2 / 2020-04-24
+===================
+
+### 💅 Refactors
+
+- `general`
+  - 重新实现chanjet-mainfest-chunk-plugin
+
+
+### 💖 Thanks to
+
+- gaoletian
+
 v2.8.1 / 2020-04-24
 ===================
 
