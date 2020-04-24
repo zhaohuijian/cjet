@@ -1,6 +1,6 @@
 {
   "name": "cjet-cli",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "description": "前端React工程构建工具",
   "license": "MIT",
   "engines": {
