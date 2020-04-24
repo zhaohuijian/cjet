@@ -1,5 +1,5 @@
 {
-  "name": "cjet",
+  "name": "@chanjet/cjet",
   "version": "2.7.5",
   "description": "前端React工程构建工具",
   "license": "MIT",
@@ -16,6 +16,7 @@
   "types": "./lib/react-app.d.ts",
   "dependencies": {
     "@babel/core": "7.9.0",
+    "@chanjet/chanjet-manifest-chunk-plugin": "^1.0.4",
     "@svgr/webpack": "4.3.3",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
@@ -73,6 +74,7 @@
     "webpack-dev-server": "3.10.3",
     "webpack-manifest-plugin": "2.2.0",
     "webpack-merge": "^4.2.2",
+    "webpack-sources": "^1.4.3",
     "webpackbar": "^4.0.0",
     "workbox-webpack-plugin": "4.3.1"
   },
