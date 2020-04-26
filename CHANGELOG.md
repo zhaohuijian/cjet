@@ -1,3 +1,45 @@
+v2.8.3 / 2020-04-26
+===================
+
+### 🐛 Bug Fixes
+
+- `general`
+  - RuntimeChunk mainfest 拼写错误
+
+
+### 🚀 Features
+
+- `general`
+  - 通过环境变量 CHANJET_MAINFEST 控制是否启用 chanjet-mainfest-chunk-plugin, 默认不启用
+
+
+### 💅 Refactors
+
+- `general`
+  - 重新实现chanjet-mainfest-chunk-plugin
+
+
+### 🏡 Chore
+
+- `general`
+  - Update release script
+  - Update release script
+  - 添加test命令
+  - 添加release命令
+
+
+### 👓 Tests
+
+- `general`
+  - Clear dist and node_modules before run cjet build
+  - 更新插件多页应用测试用例
+  - Add chanjet-mainfest-chunk-plugin test
+
+
+### 💖 Thanks to
+
+- gaoletian
+
 # v2.8.2 / 2020-04-24
 
 ### 💅 Refactors
