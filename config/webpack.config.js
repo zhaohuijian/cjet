@@ -56,6 +56,9 @@ const bundleAnalyzer = process.env.BUNDLE_ANALYZER === 'true';
 
 const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT || '10000');
 
+// 通过环境变量 CHANJET_MAINFEST 控制是否启用 chanjet-mainfest-chunk-plugin, 默认不启用
+const shoudUserChanjetMainfestChunkPlugin = process.env.CHANJET_MAINFEST === 'true';
+
 // Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig);
 
@@ -691,7 +694,7 @@ module.exports = function (webpackEnv) {
 
       // 生产环境下启用 chanjet-manifest-chunk-plugin
       // 生成 mainfest.js
-      isEnvProduction && new ChanjetManifestChunkPlugin({}),
+      isEnvProduction && shoudUserChanjetMainfestChunkPlugin && new ChanjetManifestChunkPlugin({}),
 
       // Moment.js is an extremely popular library that bundles large locale files
       // by default due to how Webpack interprets its code. This is a practical
