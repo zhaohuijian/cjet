@@ -8,12 +8,12 @@ const cjetConfigDefault = {
      * 启用 preload
      * 构建项目自动加入preload方案
      */
-    preload: true,
+    preload: false,
     /**
      * 启用 prefetch
      * 构建项目自动加入prefetch方案
      */
-    prefetch: true,
+    prefetch: false,
   },
 
   /**
@@ -79,7 +79,7 @@ const cjetConfigDefault = {
    */
   paths: {
     appPath: '.',
-    appSrc: 'src', //源码目录，非src目录中的代码不做编译
+    appSrc: '.', //源码目录，非src目录中的代码不做编译
     appBuild: 'dist', //生产目录
     appPublic: 'public', //静态资源目录
     appIndexHtml: 'src/index.html', //默认首页模板

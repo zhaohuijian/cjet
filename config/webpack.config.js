@@ -786,13 +786,13 @@ module.exports = function (webpackEnv) {
                   removeComments: true,
                   collapseWhitespace: true,
                   removeRedundantAttributes: true,
-                  useShortDoctype: true,
+                  useShortDoctype: false,
                   removeEmptyAttributes: true,
                   removeStyleLinkTypeAttributes: true,
                   keepClosingSlash: true,
-                  minifyJS: true,
-                  minifyCSS: true,
-                  minifyURLs: true,
+                  minifyJS: false,
+                  minifyCSS: false,
+                  minifyURLs: false,
                 },
               }
             : undefined
@@ -823,9 +823,9 @@ module.exports = function (webpackEnv) {
                   removeEmptyAttributes: true,
                   removeStyleLinkTypeAttributes: true,
                   keepClosingSlash: true,
-                  minifyJS: true,
-                  minifyCSS: true,
-                  minifyURLs: true,
+                  minifyJS: false,
+                  minifyCSS: false,
+                  minifyURLs: false,
                 },
               }
             : undefined

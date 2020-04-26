@@ -2,14 +2,20 @@ const Source = require('webpack-sources').Source;
 const RawSource = require('webpack-sources').RawSource;
 const CachedSource = require('webpack-sources').CachedSource;
 const ConcatSource = require('webpack-sources').ConcatSource;
+import * as util from 'util';
+import type {Compiler, Plugin} from 'webpack';
 
 const pluginName = 'ChanjetMainfestChunkPlugin';
-class ConsoleLogOnBuildWebpackPlugin {
+class ChanjetMainfestChunkPlugin implements Plugin {
+  private requireScriptFn: string;
+  private requireLinkFn: string;
+
   constructor(options) {
     this.requireScriptFn = '__loadScript__';
     this.requireLinkFn = '__loadLink__';
   }
-  apply(compiler) {
+
+  apply(compiler: Compiler) {
     const self = this;
     // must be webpack 4
     compiler.hooks.thisCompilation.tap(pluginName, compilation => {
@@ -25,6 +31,11 @@ class ConsoleLogOnBuildWebpackPlugin {
 
         // 获取入口 chunk
         const entryChunk = stats.chunks.find(chunk => chunk.entry === true);
+
+        // console.log(util.inspect(compilation.entrypoints, false, 4));
+        // console.log(util.inspect(comp2www, false, 2));
+
+        // console.log(JSON.stringify(stats.chunks, null, 2));
 
         // 检查以下两种情况
         // 1. 找不到入口chunk
@@ -53,7 +64,7 @@ class ConsoleLogOnBuildWebpackPlugin {
         let entryFileName = entryChunk.files[0];
 
         // 生成自定义载入脚本
-        const outputOptions = compilation.mainTemplate.outputOptions;
+        const {outputOptions} = compilation.mainTemplate;
         const extraSources = self.assembleInitialSources(outputOptions, initialScriptNameArr, initialLinkNameArr);
 
         // 入口chunk的代码,正常情况下应该是webpack的运行时代码
@@ -149,4 +160,4 @@ class ConsoleLogOnBuildWebpackPlugin {
   }
 }
 
-module.exports = ConsoleLogOnBuildWebpackPlugin;
+module.exports = ChanjetMainfestChunkPlugin;

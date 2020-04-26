@@ -1,17 +1,20 @@
-const {spawnSync, execSync} = require('child_process');
+const exec = require('child_process').execSync;
 const {join} = require('path');
-const {existsSync} = require('fs');
+const exists = require('fs').existsSync;
+
 const featuresPath = join(__dirname, 'features');
 const cjet = join(process.cwd(), 'bin/cjet.js');
 
 describe('chanjet-manifest-chunk-plugin', () => {
   beforeAll(() => {
     // cd features and run cjet  build
-    execSync(`cd ${featuresPath} && node ${cjet} build`, {encoding: 'utf8'});
+    const cmd = `cd ${featuresPath} && node ${cjet} build`;
+    console.log(cmd);
+    exec(cmd, {encoding: 'utf8'});
   });
   it('should has mainfest.js', () => {
     const dist = filename => join(featuresPath, 'dist', filename);
-    expect(existsSync(dist(''))).toBe(true);
-    expect(existsSync(dist('mainfest.js'))).toBe(true);
+    expect(exists(dist(''))).toBe(true);
+    expect(exists(dist('mainfest.js'))).toBe(true);
   });
 });

@@ -7,7 +7,9 @@
     "node": ">=8.10"
   },
   "scripts": {
-    "changelog": "node -r esm internal-scripts/changelog.js"
+    "changelog": "node -r esm internal-scripts/changelog.js",
+    "plugin:build": "tsc plugins/chanjet-mainfest-chunk-plugin.ts -t es2015",
+    "plugin:dev": "tsc plugins/chanjet-mainfest-chunk-plugin.ts -t es5 -w"
   },
   "repository": "chanjet-fe/cjet",
   "bin": {
