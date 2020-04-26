@@ -1,61 +1,15 @@
-v2.8.3 / 2020-04-26
-===================
-
-### 🐛 Bug Fixes
-
-- `general`
-  - RuntimeChunk mainfest 拼写错误
-
-
-### 🚀 Features
-
-- `general`
-  - 通过环境变量 CHANJET_MAINFEST 控制是否启用 chanjet-mainfest-chunk-plugin, 默认不启用
-
+# v2.8.2 / 2020-04-24
 
 ### 💅 Refactors
 
 - `general`
-  - 重新实现chanjet-mainfest-chunk-plugin
-
-
-### 🏡 Chore
-
-- `general`
-  - Update release script
-  - 添加test命令
-  - 添加release命令
-
-
-### 👓 Tests
-
-- `general`
-  - Clear dist and node_modules before run cjet build
-  - 更新插件多页应用测试用例
-  - Add chanjet-mainfest-chunk-plugin test
-
+  - 重新实现 chanjet-mainfest-chunk-plugin
 
 ### 💖 Thanks to
 
 - gaoletian
 
-v2.8.2 / 2020-04-24
-===================
-
-### 💅 Refactors
-
-- `general`
-  - 重新实现chanjet-mainfest-chunk-plugin
-
-
-### 💖 Thanks to
-
-- gaoletian
-
-v2.8.1 / 2020-04-24
-===================
-
-
+# v2.8.1 / 2020-04-24
 
 # v2.8.0 / 2020-04-24
 
@@ -67,7 +21,7 @@ v2.8.1 / 2020-04-24
 ### 🚀 Features
 
 - `general`
-  - Webpack 默认配置调整 1. 引入 chanjet-manifest-chunk-plugin 2. 临时关闭 ForkTsCheckerWebpackPlugin 3. runtimeChunk 默认名称为 mainfest 适应部署 4. shouldInlineRuntimeChunk 默认为 false , 通过环境变量 INLINE_RUNTIME_CHUNK 手动开启 5. 调整输出目录 css 输出到 css/_, chunk 输出到 js/_
+  - Webpack 默认配置调整 1. 引入 chanjet-manifest-chunk-plugin 2. 临时关闭 ForkTsCheckerWebpackPlugin 3. runtimeChunk 默认名称为 mainfest 适应部署 4. shouldInlineRuntimeChunk 默认为 false , 通过环境变量 INLINE*RUNTIME_CHUNK 手动开启 5. 调整输出目录 css 输出到 css/*, chunk 输出到 js/\_
   - 更改 webpackDevServer 配置，允许跨域方便与乾坤集成
 
 ### 💅 Refactors
