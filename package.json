@@ -8,6 +8,7 @@
   },
   "scripts": {
     "changelog": "node -r esm internal-scripts/changelog.js",
+    "test": "jest",
     "release": "node -r esm internal-scripts/release.js",
     "release:dry": "node -r esm internal-scripts/release.js --dry",
     "plugin:build": "tsc plugins/chanjet-mainfest-chunk-plugin.ts -t es2015",
