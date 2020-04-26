@@ -8,7 +8,7 @@ const cjet = join(process.cwd(), 'bin/cjet.js');
 describe('chanjet-manifest-chunk-plugin', () => {
   beforeAll(() => {
     // cd features and run cjet  build
-    const cmd = `cd ${featuresPath} && node ${cjet} build`;
+    const cmd = `cd ${featuresPath} && rm -rf dist node_modules && node ${cjet} build`;
     console.log(cmd);
     exec(cmd, {encoding: 'utf8'});
   });
