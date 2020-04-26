@@ -8,6 +8,8 @@
   },
   "scripts": {
     "changelog": "node -r esm internal-scripts/changelog.js",
+    "release": "node -r esm internal-scripts/release.js",
+    "release:dry": "node -r esm internal-scripts/release.js --dry",
     "plugin:build": "tsc plugins/chanjet-mainfest-chunk-plugin.ts -t es2015",
     "plugin:dev": "tsc plugins/chanjet-mainfest-chunk-plugin.ts -t es5 -w"
   },
@@ -83,6 +85,7 @@
   "devDependencies": {
     "@types/jest": "^25.2.1",
     "@types/webpack": "^4.41.12",
+    "enquirer": "^2.3.5",
     "esm": "^3.2.25",
     "jest": "^25.4.0",
     "react": "^16.12.0",
