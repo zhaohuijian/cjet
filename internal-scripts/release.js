@@ -82,9 +82,9 @@ async function main() {
     await run('git', ['commit', '-m', `release: v${targetVersion}`]);
 
     // publish packages
-    console.log('Publish package...');
-    const releaseTag = Array.isArray(semver.prerelease(targetVersion)) ? semver.prerelease(targetVersion)[0] : 'latest';
-    await publish(releaseTag);
+    // console.log('Publish package...');
+    // const releaseTag = Array.isArray(semver.prerelease(targetVersion)) ? semver.prerelease(targetVersion)[0] : 'latest';
+    // await publish(releaseTag);
 
     // push to GitHub
     console.log('Push to GitHub...');

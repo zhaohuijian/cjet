@@ -1,3 +1,16 @@
+v2.8.4 / 2020-05-07
+===================
+
+### 🐛 Bug Fixes
+
+- `general`
+  - 更改url-loader.esModule 为false,兼容旧的写法 比如 require('./images/logo.png')
+
+
+### 💖 Thanks to
+
+- gaoletian
+
 v2.8.3 / 2020-04-26
 ===================
 
