@@ -1,1 +1,9 @@
-/fixtures
+__test__
+.vscode
+internal-scripts
+.npmignore
+.gitignore
+.editorconfig
+yarn-error.log
+.prettierrc
+.travis.yml
