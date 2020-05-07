@@ -32,11 +32,6 @@ class ChanjetMainfestChunkPlugin implements Plugin {
         // 获取入口 chunk
         const entryChunk = stats.chunks.find(chunk => chunk.entry === true);
 
-        // console.log(util.inspect(compilation.entrypoints, false, 4));
-        // console.log(util.inspect(comp2www, false, 2));
-
-        // console.log(JSON.stringify(stats.chunks, null, 2));
-
         // 检查以下两种情况
         // 1. 找不到入口chunk
         // 2. 存在多个入口chunk
