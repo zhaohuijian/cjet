@@ -14,7 +14,6 @@ describe('chanjet-manifest-chunk-plugin', () => {
   });
   it('should has mainfest.js', () => {
     const dist = filename => join(featuresPath, 'dist', filename);
-    expect(exists(dist(''))).toBe(true);
     expect(exists(dist('mainfest.js'))).toBe(true);
   });
 });
