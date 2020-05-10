@@ -12,7 +12,7 @@ const babelMerge = require('babel-merge');
 const resolve = require('resolve');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const PreloadWebpackPlugin = require('@furic-zhao/preload-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
@@ -642,19 +642,7 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
-      isEnvProduction &&
-      cjetConfig.html.preload &&
-      new PreloadWebpackPlugin({
-        rel: 'preload',
-        include: 'initial',
-        fileBlacklist: [/\.map$/, /runtime-.+[.]js/]
-      }),
-      isEnvProduction &&
-      cjetConfig.html.preload &&
-      new PreloadWebpackPlugin({
-        rel: 'prefetch',
-        include: 'asyncChunks'
-      }),
+
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
@@ -822,7 +810,26 @@ module.exports = function (webpackEnv) {
           }
           : undefined
       )
-    ))
+    ),
+      isEnvProduction &&
+      cjetConfig.html.preload &&
+      new PreloadWebpackPlugin({
+        rel: 'preload',
+        include: {
+          type: 'initial',
+          entries: [fileName]
+        },
+        fileBlacklist: [/\.map$/, /runtime-.+[.]js/]
+      }),
+      isEnvProduction &&
+      cjetConfig.html.preload &&
+      new PreloadWebpackPlugin({
+        rel: 'prefetch',
+        include: {
+          type: 'asyncChunks',
+          entries: [fileName]
+        }
+      }))
   });
   if (fs.existsSync(paths.appIndexHtml)) {
     const fileName = path.parse(paths.appIndexHtml).name
@@ -852,7 +859,25 @@ module.exports = function (webpackEnv) {
           }
           : undefined
       )
-    ))
+    ), isEnvProduction &&
+    cjetConfig.html.preload &&
+    new PreloadWebpackPlugin({
+      rel: 'preload',
+      include: {
+        type: 'initial',
+        entries: [fileName]
+      },
+      fileBlacklist: [/\.map$/, /runtime-.+[.]js/]
+    }),
+      isEnvProduction &&
+      cjetConfig.html.preload &&
+      new PreloadWebpackPlugin({
+        rel: 'prefetch',
+        include: {
+          type: 'asyncChunks',
+          entries: [fileName]
+        }
+      }))
   }
   // local webpack.config.js
   const localWebpackConfig = () => {
