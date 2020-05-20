@@ -9,7 +9,6 @@ const execa = require('execa');
 const preId = args.preid || (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0]) || 'alpha';
 const isDryRun = args.dry;
 const skipTests = args.skipTests;
-const skipBuild = args.skipBuild;
 
 const versionIncrements = ['patch', 'minor', 'major', 'prepatch', 'preminor', 'premajor', 'prerelease'];
 
@@ -17,9 +16,84 @@ const inc = i => semver.inc(currentVersion, i, preId);
 const bin = name => path.resolve(__dirname, '../node_modules/.bin/' + name);
 const run = (bin, args, opts = {}) => execa(bin, args, {stdio: 'inherit', ...opts});
 
+const logInfo = console.log;
+
 async function main() {
   let targetVersion = args._[0];
 
+  targetVersion = await getTargetVersion(targetVersion);
+
+  validVersion();
+
+  const {yes} = await confirm(targetVersion);
+
+  if (!yes) {
+    return;
+  }
+
+  // run tests before release
+  !skipTests && (await runTest());
+
+  // update all package versions and inter-dependencies
+  updateVersions(targetVersion);
+
+  // all good...
+  if (isDryRun) {
+    // stop here so we can inspect changes to be committed
+    // and packages built
+    return console.log('Dry run finished.');
+  }
+  // update changelog
+  console.log('update changelog...');
+  await updateChangelog();
+
+  // commit all changes
+  await commitAll();
+
+  // publish packages
+  // await publishNpm();
+
+  // push to GitHub
+  logInfo('Push to GitHub...');
+  await gitPushOriginWithTag();
+
+  function validVersion() {
+    if (!semver.valid(targetVersion)) {
+      throw new Error(`invalid target version: ${targetVersion}`);
+    }
+  }
+
+  async function runTest() {
+    await run(bin('jest'), ['--clearCache']);
+    await run('yarn', ['test']);
+  }
+
+  async function updateChangelog() {
+    await run('yarn', ['run', 'changelog', targetVersion]);
+  }
+
+  async function gitPushOriginWithTag() {
+    await run('git', ['tag', `v${targetVersion}`]);
+    await run('git', ['push', 'origin', `refs/tags/v${targetVersion}`]);
+    await run('git', ['push']);
+  }
+
+  async function commitAll() {
+    console.log('Committing changes...');
+    await run('git', ['add', '-A']);
+    await run('git', ['commit', '-m', `release: v${targetVersion}`]);
+  }
+}
+
+async function confirm(targetVersion) {
+  return await prompt({
+    type: 'confirm',
+    name: 'yes',
+    message: `Releasing v${targetVersion}. Confirm?`,
+  });
+}
+
+async function getTargetVersion(targetVersion) {
   if (!targetVersion) {
     // no explicit version, offer suggestions
     const {release} = await prompt({
@@ -28,7 +102,6 @@ async function main() {
       message: 'Select release type',
       choices: versionIncrements.map(i => `${i} (${inc(i)})`).concat(['custom']),
     });
-
     if (release === 'custom') {
       targetVersion = (
         await prompt({
@@ -42,56 +115,7 @@ async function main() {
       targetVersion = release.match(/\((.*)\)/)[1];
     }
   }
-
-  if (!semver.valid(targetVersion)) {
-    throw new Error(`invalid target version: ${targetVersion}`);
-  }
-
-  const {yes} = await prompt({
-    type: 'confirm',
-    name: 'yes',
-    message: `Releasing v${targetVersion}. Confirm?`,
-  });
-
-  if (!yes) {
-    return;
-  }
-
-  // run tests before release
-  if (!skipTests) {
-    await run(bin('jest'), ['--clearCache']);
-    await run('yarn', ['test']);
-  }
-
-  // update all package versions and inter-dependencies
-  updateVersions(targetVersion);
-
-  // all good...
-  if (isDryRun) {
-    // stop here so we can inspect changes to be committed
-    // and packages built
-    console.log('Dry run finished.');
-  } else {
-    // update changelog
-    console.log('update changelog...');
-    await run('yarn', ['run', 'changelog', targetVersion]);
-
-    // commit all changes
-    console.log('Committing changes...');
-    await run('git', ['add', '-A']);
-    await run('git', ['commit', '-m', `release: v${targetVersion}`]);
-
-    // publish packages
-    // console.log('Publish package...');
-    // const releaseTag = Array.isArray(semver.prerelease(targetVersion)) ? semver.prerelease(targetVersion)[0] : 'latest';
-    // await publish(releaseTag);
-
-    // push to GitHub
-    console.log('Push to GitHub...');
-    await run('git', ['tag', `v${targetVersion}`]);
-    await run('git', ['push', 'origin', `refs/tags/v${targetVersion}`]);
-    await run('git', ['push']);
-  }
+  return targetVersion;
 }
 
 function updateVersions(version) {
@@ -110,16 +134,6 @@ function updatePackage(pkgRoot, version) {
 function readPkg(pkgRoot) {
   const pkgPath = path.resolve(pkgRoot, 'package.json');
   return JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-}
-
-async function publish(releaseTag) {
-  const pkgRoot = path.resolve(__dirname, '..');
-  const pkg = readPkg(pkgRoot);
-  if (!pkg.private) {
-    await run('yarn', ['publish', '--non-interactive', '--tag', releaseTag], {
-      cwd: pkgRoot,
-    });
-  }
 }
 
 main().catch(err => {
