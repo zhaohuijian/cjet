@@ -256,7 +256,7 @@ Compiled successfully!
 |   Note that the development build is not optimized.   |
 |   To create a production build, use yarn build.       |
 |                                                       |
-|   More info see:https://github.com/chanjet-fe/cjet    |
+|   More info see:https://github.com/furic-zhao/cjet    |
 |                                                       |
 +-------------------------------------------------------+
 ```
@@ -887,7 +887,7 @@ module.exports = {
 
 该对象将会被 [webpack-merge](https://github.com/survivejs/webpack-merge) 合并入最终的 webpack 配置。
 
-有些 webpack 选项是基于工程实践设置的，并被用在配置里的多个地方，以确保所有的部分都能正常工作在一起。在你扩展更多配置之前，建议先参考[cjet 工程内部已有配置](https://github.com/chanjet-fe/cjet/blob/master/config/webpack.config.js)。
+有些 webpack 选项是基于工程实践设置的，并被用在配置里的多个地方，以确保所有的部分都能正常工作在一起。在你扩展更多配置之前，建议先参考[cjet 工程内部已有配置](https://github.com/furic-zhao/cjet/blob/master/config/webpack.config.js)。
 
 ## PostCSS 配置
 
@@ -1139,4 +1139,4 @@ REACT_APP_ENVDEMO_CODE=abcdef
 
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2020-present, [chanjet-fe](https://github.com/chanjet-fe).
+Copyright (c) 2020-present, [furic-zhao](https://github.com/furic-zhao).

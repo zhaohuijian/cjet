@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020, chanjet-fe, https://github.com/chanjet-fe.
+ * Copyright (c) 2020, chanjet-fe, https://github.com/furic-zhao.
  * Based on create-react-app but adds a bunch of useful features.
  */
 'use strict';
@@ -76,7 +76,7 @@ checkBrowsers(paths.appPath, isInteractive)
     ({ stats, previousFileSizes, warnings }) => {
       let message = chalk.cyan('欢迎使用CJET前端React工程构建工具');
 
-      message += `\n\n${chalk.gray('More info see:https://github.com/chanjet-fe/cjet')}`;
+      message += `\n\n${chalk.gray('More info see:https://github.com/furic-zhao/cjet')}`;
       console.log(boxen(message, {
         padding: 1,
         borderColor: 'white',

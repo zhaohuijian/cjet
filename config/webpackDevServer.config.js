@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020, chanjet-fe, https://github.com/chanjet-fe.
+ * Copyright (c) 2020, chanjet-fe, https://github.com/furic-zhao.
  * Based on create-react-app but adds a bunch of useful features.
  */
 'use strict';
