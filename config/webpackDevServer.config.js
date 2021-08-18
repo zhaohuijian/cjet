@@ -4,10 +4,10 @@
  */
 'use strict';
 
-const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
-const evalSourceMapMiddleware = require('react-dev-utils/evalSourceMapMiddleware');
-const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
-const ignoredFiles = require('react-dev-utils/ignoredFiles');
+const errorOverlayMiddleware = require('cjet-dev-utils/errorOverlayMiddleware');
+const evalSourceMapMiddleware = require('cjet-dev-utils/evalSourceMapMiddleware');
+const noopServiceWorkerMiddleware = require('cjet-dev-utils/noopServiceWorkerMiddleware');
+const ignoredFiles = require('cjet-dev-utils/ignoredFiles');
 const paths = require('./paths');
 const fs = require('fs');
 

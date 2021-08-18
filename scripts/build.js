@@ -27,7 +27,7 @@ const verifyTypeScriptSetup = require('./utils/verifyTypeScriptSetup');
 verifyTypeScriptSetup();
 
 const path = require('path');
-const chalk = require('react-dev-utils/chalk');
+const chalk = require('cjet-dev-utils/chalk');
 const fs = require('fs-extra');
 const webpack = require('webpack');
 const boxen = require('boxen');
@@ -35,8 +35,8 @@ const configFactory = require('../config/webpack.config');
 const paths = require('../config/paths');
 const formatWebpackMessages = require('../lib/formatWebpackMessages');
 const printHostingInstructions = require('../lib/printHostingInstructions');
-const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
-const printBuildError = require('react-dev-utils/printBuildError');
+const FileSizeReporter = require('cjet-dev-utils/FileSizeReporter');
+const printBuildError = require('cjet-dev-utils/printBuildError');
 const distFileSizeReport = require('../lib/distFileSizeReport');
 
 const measureFileSizesBeforeBuild =
@@ -56,7 +56,7 @@ const config = configFactory('production');
 
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
-const { checkBrowsers } = require('react-dev-utils/browsersHelper');
+const { checkBrowsers } = require('cjet-dev-utils/browsersHelper');
 checkBrowsers(paths.appPath, isInteractive)
   .then(() => {
     // First, read the current file sizes in build directory.

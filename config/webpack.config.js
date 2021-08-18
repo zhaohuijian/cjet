@@ -15,27 +15,27 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const PreloadWebpackPlugin = require('@furic-zhao/preload-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
+const InlineChunkHtmlPlugin = require('cjet-dev-utils/InlineChunkHtmlPlugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const safePostCssParser = require('postcss-safe-parser');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
-const globby = require('react-dev-utils/globby');
+const InterpolateHtmlPlugin = require('cjet-dev-utils/InterpolateHtmlPlugin');
+const globby = require('cjet-dev-utils/globby');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
-const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
-const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const WatchMissingNodeModulesPlugin = require('cjet-dev-utils/WatchMissingNodeModulesPlugin');
+const ModuleScopePlugin = require('cjet-dev-utils/ModuleScopePlugin');
 const getCSSModuleLocalIdent = require('../lib/getCSSModuleLocalIdent');
 const paths = require('./paths');
 const modules = require('./modules');
 const getClientEnvironment = require('./env');
-const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
-const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
-const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const ModuleNotFoundPlugin = require('cjet-dev-utils/ModuleNotFoundPlugin');
+const ForkTsCheckerWebpackPlugin = require('cjet-dev-utils/ForkTsCheckerWebpackPlugin');
+const typescriptFormatter = require('cjet-dev-utils/typescriptFormatter');
 
-const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
+const getCacheIdentifier = require('cjet-dev-utils/getCacheIdentifier');
 
 const appPackageJson = require(paths.appPackageJson);
 
@@ -353,7 +353,7 @@ module.exports = function (webpackEnv) {
             {
               options: {
                 cache: cjetConfig.eslint.cache,
-                formatter: require.resolve('react-dev-utils/eslintFormatter'),
+                formatter: require.resolve('cjet-dev-utils/eslintFormatter'),
                 eslintPath: require.resolve('eslint'),
                 resolvePluginsRelativeTo: __dirname,
                 ignore: process.env.EXTEND_ESLINT === 'true',
@@ -411,7 +411,7 @@ module.exports = function (webpackEnv) {
                   [
                     'babel-plugin-named-asset-import',
                     'babel-preset-react-app',
-                    'react-dev-utils',
+                    'cjet-dev-utils',
                     'cjet',
                   ]
                 ),
@@ -463,7 +463,7 @@ module.exports = function (webpackEnv) {
                   [
                     'babel-plugin-named-asset-import',
                     'babel-preset-react-app',
-                    'react-dev-utils',
+                    'cjet-dev-utils',
                     'cjet',
                   ]
                 ),
@@ -767,7 +767,7 @@ module.exports = function (webpackEnv) {
     const fileName = path.dirname(file).split('/').pop()
     webpackConfig.entry[fileName] = [
       isEnvDevelopment &&
-      require.resolve('react-dev-utils/webpackHotDevClient'),
+      require.resolve('cjet-dev-utils/webpackHotDevClient'),
       file,
     ].filter(Boolean);
   });
@@ -776,7 +776,7 @@ module.exports = function (webpackEnv) {
     const fileName = path.parse(paths.appIndexJs).name
     webpackConfig.entry[fileName] = [
       isEnvDevelopment &&
-      require.resolve('react-dev-utils/webpackHotDevClient'),
+      require.resolve('cjet-dev-utils/webpackHotDevClient'),
       paths.appIndexJs,
     ].filter(Boolean);
   }

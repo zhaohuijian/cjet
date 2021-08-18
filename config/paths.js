@@ -7,7 +7,7 @@
 const path = require('path');
 const fs = require('fs');
 const url = require('url');
-const globby = require('react-dev-utils/globby');
+const globby = require('cjet-dev-utils/globby');
 const cjetConfig = require('./cjet.config');
 
 // Make sure any symlinks in the project folder are resolved:

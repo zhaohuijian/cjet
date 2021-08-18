@@ -5,15 +5,15 @@
 
 'use strict';
 
-const chalk = require('react-dev-utils/chalk');
+const chalk = require('cjet-dev-utils/chalk');
 const fs = require('fs');
 const resolve = require('resolve');
 const path = require('path');
 const paths = require('../../config/paths');
 const cjetConfig = require('../../config/cjet.config')
 const os = require('os');
-const immer = require('react-dev-utils/immer').produce;
-const globby = require('react-dev-utils/globby').sync;
+const immer = require('cjet-dev-utils/immer').produce;
+const globby = require('cjet-dev-utils/globby').sync;
 
 function writeJson(fileName, object) {
   fs.writeFileSync(
